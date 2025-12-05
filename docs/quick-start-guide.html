@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Start Guide - AI Chat Studio v2.0.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: #333;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            margin-top: 25px;
+        }
+
+        .section h4 {
+            color: #555;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .section ul, .section ol {
+            margin-bottom: 15px;
+            padding-left: 30px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .code-block code {
+            background: none;
+            padding: 0;
+            color: #d63384;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .warning strong {
+            color: #856404;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .info strong {
+            color: #0c5460;
+        }
+
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .success strong {
+            color: #155724;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h4 {
+            color: #667eea;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .nav {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .nav h3 {
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .nav a {
+            display: block;
+            color: #495057;
+            text-decoration: none;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .nav a:hover {
+            color: #667eea;
+        }
+
+        .nav a:last-child {
+            border-bottom: none;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Font Awesome Icon Styles */
+        .fa-icon {
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            font-size: 1.1em;
+            margin-right: 8px;
+        }
+
+        .fa-check-circle::before { content: "\f058"; color: #28a745; }
+        .fa-cog::before { content: "\f013"; color: #6f42c1; }
+        .fa-rocket::before { content: "\f135"; color: #fd7e14; }
+        .fa-palette::before { content: "\f53f"; color: #e83e8c; }
+        .fa-book::before { content: "\f02d"; color: #17a2b8; }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Quick Start Guide</h1>
+            <p>Get AI Chat Studio up and running in 5 minutes</p>
+        </div>
+
+        <div class="nav">
+            <h3>Table of Contents</h3>
+            <a href="#overview">Overview</a>
+            <a href="#prerequisites">Prerequisites</a>
+            <a href="#download">Download & Extract</a>
+            <a href="#basic-setup">Basic Setup</a>
+            <a href="#first-test">First Test</a>
+            <a href="#next-steps">Next Steps</a>
+        </div>
+
+        <div class="content">
+            <div class="section" id="overview">
+                <h2>Overview</h2>
+                <p>AI Chat Studio v2.0.0 is a lightweight, client-side application that provides a clean interface for AI chat interactions. This quick start guide will get you running in just a few minutes.</p>
+                
+                <div class="info">
+                    <strong>Time Required:</strong> 5-10 minutes | <strong>Difficulty:</strong> Beginner | <strong>Prerequisites:</strong> Basic computer skills
+                </div>
+
+                <h3>What You'll Accomplish</h3>
+                <ul>
+                    <li>Download and set up AI Chat Studio v2.0.0</li>
+                    <li>Configure your first AI provider</li>
+                    <li>Send your first chat message</li>
+                    <li>Understand basic configuration options</li>
+                </ul>
+            </div>
+
+            <div class="section" id="prerequisites">
+                <h2>Prerequisites</h2>
+                
+                <h3>System Requirements</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>Local Testing</h4>
+                        <ul>
+                            <li><strong>Operating System:</strong> Windows, macOS, or Linux</li>
+                            <li><strong>PHP:</strong> Version 7.4+ (8.0+ recommended)</li>
+                            <li><strong>Web Server:</strong> PHP built-in server or Apache</li>
+                            <li><strong>Browser:</strong> Modern web browser (Chrome, Firefox, Safari, Edge)</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Production Hosting</h4>
+                        <ul>
+                            <li><strong>Web Server:</strong> Apache 2.4+ or Nginx 1.18+</li>
+                            <li><strong>PHP:</strong> Version 7.4+ with cURL extension</li>
+                            <li><strong>SSL Certificate:</strong> Recommended for security</li>
+                            <li><strong>Storage:</strong> 50MB minimum disk space</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>AI Provider Accounts</h3>
+                <p>You'll need an API key from at least one AI provider:</p>
+                <ul>
+                    <li><strong>OpenAI:</strong> GPT-3.5/GPT-4 models</li>
+                    <li><strong>Anthropic:</strong> Claude models</li>
+                    <li><strong>Google:</strong> Gemini models</li>
+                    <li><strong>Local Models:</strong> Ollama, LM Studio</li>
+                </ul>
+
+                <div class="warning">
+                    <strong>Security Note:</strong> Never share your API keys or commit them to version control. Use environment variables or secure configuration files.
+                </div>
+            </div>
+
+            <div class="section" id="download">
+                <h2>Download & Extract</h2>
+                
+                <h3>Step 1: Download the Application</h3>
+                <p>Download AI Chat Studio v2.0.0 from the official repository:</p>
+                
+                <div class="code-block">
+                    <code># Using Git (recommended)
+git clone https://github.com/your-repo/ai-chat-studio.git
+cd ai-chat-studio
+
+# Or download and extract ZIP
+# Download from releases page and extract to your desired location
+</code>
+                </div>
+
+                <h3>Step 2: Verify Download</h3>
+                <p>Ensure you have the correct directory structure:</p>
+                
+                <div class="code-block">
+                    <code>ai-chat-studio/
+├── v2.0.0/           # Latest version (recommended)
+│   ├── index.php
+│   ├── api/
+│   ├── assets/
+│   └── pages/
+├── main/              # Alternative version
+└── docs/             # Documentation
+</code>
+                </div>
+
+                <div class="success">
+                    <strong>Recommended:</strong> Use the v2.0.0 directory for the latest features and improvements.
+                </div>
+            </div>
+
+            <div class="section" id="basic-setup">
+                <h2>Basic Setup</h2>
+                
+                <h3><span class="step-number">1</span>Start Local Server</h3>
+                <p>Navigate to the v2.0.0 directory and start the PHP development server:</p>
+                
+                <div class="code-block">
+                    <code># Navigate to v2.0.0 directory
+cd v2.0.0
+
+# Start development server
+php -S localhost:8001
+
+# Server will start at http://localhost:8001
+</code>
+                </div>
+
+                <h3><span class="step-number">2</span>Access the Application</h3>
+                <p>Open your web browser and navigate to the local server:</p>
+                <ul>
+                    <li>Go to <code>http://localhost:8001</code></li>
+                    <li>You should see the AI Chat Studio interface</li>
+                    <li>If you see an error, check the terminal for PHP error messages</li>
+                </ul>
+
+                <h3><span class="step-number">3</span>Configure API Provider</h3>
+                <p>To start using AI chat features, you need to configure an API provider:</p>
+                
+                <h4>Option A: OpenAI Setup</h4>
+                <div class="code-block">
+                    <code>// In the settings or configuration section:
+Provider: OpenAI
+API Key: sk-your-openai-api-key-here
+Model: gpt-3.5-turbo (or gpt-4)
+</code>
+                </div>
+
+                <h4>Option B: Anthropic Claude Setup</h4>
+                <div class="code-block">
+                    <code>// In the settings or configuration section:
+Provider: Anthropic
+API Key: sk-ant-your-anthropic-api-key-here
+Model: claude-3-sonnet-20240229
+</code>
+                </div>
+
+                <div class="warning">
+                    <strong>Important:</strong> API keys are sensitive information. Use environment variables in production and never hardcode them in your application files.
+                </div>
+            </div>
+
+            <div class="section" id="first-test">
+                <h2>First Test</h2>
+                
+                <h3>Send Your First Message</h3>
+                <ol>
+                    <li><strong>Locate the Chat Interface:</strong> Find the text input field at the bottom of the page</li>
+                    <li><strong>Enter a Test Message:</strong> Try something simple like "Hello, how are you?"</li>
+                    <li><strong>Send the Message:</strong> Press Enter or click the Send button</li>
+                    <li><strong>Wait for Response:</strong> The AI should respond within a few seconds</li>
+                </ol>
+
+                <h3>Verify Everything Works</h3>
+                <div class="success">
+                    <strong>Success Indicators:</strong>
+                    <ul>
+                        <li><i class="fa-icon fa-check-circle"></i> Chat interface loads without errors</li>
+                        <li><i class="fa-icon fa-check-circle"></i> You can type and send messages</li>
+                        <li><i class="fa-icon fa-check-circle"></i> AI provider responds with relevant answers</li>
+                        <li><i class="fa-icon fa-check-circle"></i> Conversation history is maintained</li>
+                        <li><i class="fa-icon fa-check-circle"></i> No JavaScript or PHP errors in browser console</li>
+                    </ul>
+                </div>
+
+                <h3>Common First-Use Issues</h3>
+                
+                <h4>Issue: "Connection Error" or "Failed to fetch"</h4>
+                <div class="warning">
+                    <strong>Solutions:</strong>
+                    <ul>
+                        <li>Check your API key is valid and has sufficient credits</li>
+                        <li>Verify the API endpoint URL is correct</li>
+                        <li>Ensure your internet connection is stable</li>
+                        <li>Check browser console for detailed error messages</li>
+                    </ul>
+                </div>
+
+                <h4>Issue: "PHP Error" or "Server Error"</h4>
+                <div class="warning">
+                    <strong>Solutions:</strong>
+                    <ul>
+                        <li>Verify PHP is running: <code>php -v</code></li>
+                        <li>Check PHP extensions: <code>php -m | grep curl</code></li>
+                        <li>Ensure the server is running on the correct port</li>
+                        <li>Check file permissions in the v2.0.0 directory</li>
+                    </ul>
+                </div>
+
+                <h4>Issue: "CORS Error" or "Access Denied"</h4>
+                <div class="warning">
+                    <strong>Solutions:</strong>
+                    <ul>
+                        <li>Access via <code>http://localhost:8001</code> not <code>file://</code></li>
+                        <li>Check if your hosting provider supports the required PHP version</li>
+                        <li>Verify API provider allows requests from your domain</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section" id="next-steps">
+                <h2>Next Steps</h2>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4><i class="fa-icon fa-cog"></i>Configuration</h4>
+                        <ul>
+                            <li>Configure multiple AI providers</li>
+                            <li>Customize chat settings</li>
+                            <li>Set up user preferences</li>
+                            <li>Configure themes and appearance</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4><i class="fa-icon fa-rocket"></i>Deployment</h4>
+                        <ul>
+                            <li>Deploy to production hosting</li>
+                            <li>Set up SSL certificate</li>
+                            <li>Configure domain name</li>
+                            <li>Enable security features</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4><i class="fa-icon fa-palette"></i>Customization</h4>
+                        <ul>
+                            <li>Modify UI themes</li>
+                            <li>Add custom branding</li>
+                            <li>Extend functionality</li>
+                            <li>Integrate with other tools</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4><i class="fa-icon fa-book"></i>Learning</h4>
+                        <ul>
+                            <li>Read the full documentation</li>
+                            <li>Explore API configuration</li>
+                            <li>Learn about security best practices</li>
+                            <li>Join the community</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Recommended Next Tutorials</h3>
+                <ul>
+                    <li><strong>API Configuration Guide:</strong> Set up multiple AI providers and advanced settings</li>
+                    <li><strong>Development Setup:</strong> Set up a proper development environment</li>
+                    <li><strong>Hosting Tutorial:</strong> Deploy to production hosting</li>
+                    <li><strong>Customization Guide:</strong> Personalize the interface and features</li>
+                </ul>
+
+                <div class="info">
+                    <strong>Need Help?</strong> Check the <a href="troubleshooting.html">Troubleshooting Guide</a> or visit the <a href="https://github.com/your-repo/ai-chat-studio/issues">GitHub Issues</a> page for common solutions.
+                </div>
+
+                <div class="success">
+                    <strong>Congratulations!</strong> You now have AI Chat Studio running locally. You're ready to explore more advanced features and deployment options.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

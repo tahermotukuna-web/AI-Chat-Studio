@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Development Setup Guide - AI Chat Studio v2.0.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: #333;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            margin-top: 25px;
+        }
+
+        .section h4 {
+            color: #555;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .section ul, .section ol {
+            margin-bottom: 15px;
+            padding-left: 30px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .code-block code {
+            background: none;
+            padding: 0;
+            color: #d63384;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .warning strong {
+            color: #856404;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .info strong {
+            color: #0c5460;
+        }
+
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .success strong {
+            color: #155724;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h4 {
+            color: #667eea;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .nav {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .nav h3 {
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .nav a {
+            display: block;
+            color: #495057;
+            text-decoration: none;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .nav a:hover {
+            color: #667eea;
+        }
+
+        .nav a:last-child {
+            border-bottom: none;
+        }
+
+        .file-tree {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 15px 0;
+        }
+
+        .file-tree .folder { color: #667eea; }
+        .file-tree .file { color: #28a745; }
+        .file-tree .comment { color: #6c757d; }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .command {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Development Setup Guide</h1>
+            <p>Set up your development environment for AI Chat Studio v2.0.0</p>
+        </div>
+
+        <div class="nav">
+            <h3>Table of Contents</h3>
+            <a href="#overview">Overview</a>
+            <a href="#prerequisites">Prerequisites</a>
+            <a href="#git-setup">Git Setup</a>
+            <a href="#project-structure">Project Structure</a>
+            <a href="#local-environment">Local Environment</a>
+            <a href="#ide-setup">IDE Setup</a>
+            <a href="#development-tools">Development Tools</a>
+            <a href="#coding-standards">Coding Standards</a>
+            <a href="#testing">Testing</a>
+            <a href="#debugging">Debugging</a>
+            <a href="#workflow">Development Workflow</a>
+        </div>
+
+        <div class="content">
+            <div class="section" id="overview">
+                <h2>Overview</h2>
+                <p>This guide will help you set up a complete development environment for AI Chat Studio v2.0.0. Whether you're contributing to the project or customizing it for your own use, this guide covers everything you need to get started.</p>
+                
+                <div class="info">
+                    <strong>What You'll Learn:</strong>
+                    <ul>
+                        <li>Set up the complete development environment</li>
+                        <li>Understand the project structure and architecture</li>
+                        <li>Configure development tools and IDE</li>
+                        <li>Follow coding standards and best practices</li>
+                        <li>Set up testing and debugging workflows</li>
+                    </ul>
+                </div>
+
+                <h3>Development Prerequisites</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>Required Skills</h4>
+                        <ul>
+                            <li>Basic PHP knowledge</li>
+                            <li>JavaScript fundamentals</li>
+                            <li>HTML/CSS basics</li>
+                            <li>Git version control</li>
+                            <li>Command line usage</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Development Goals</h4>
+                        <ul>
+                            <li>Bug fixes and improvements</li>
+                            <li>Feature development</li>
+                            <li>UI/UX enhancements</li>
+                            <li>Documentation updates</li>
+                            <li>Custom integrations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="prerequisites">
+                <h2>Prerequisites</h2>
+                
+                <h3>Required Software</h3>
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tool</th>
+                                <th>Version</th>
+                                <th>Purpose</th>
+                                <th>Installation Link</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>PHP</td>
+                                <td>8.0+</td>
+                                <td>Backend development</td>
+                                <td><a href="https://www.php.net/downloads" target="_blank">php.net</a></td>
+                            </tr>
+                            <tr>
+                                <td>Node.js</td>
+                                <td>18+</td>
+                                <td>Frontend tools</td>
+                                <td><a href="https://nodejs.org/" target="_blank">nodejs.org</a></td>
+                            </tr>
+                            <tr>
+                                <td>Git</td>
+                                <td>2.30+</td>
+                                <td>Version control</td>
+                                <td><a href="https://git-scm.com/" target="_blank">git-scm.com</a></td>
+                            </tr>
+                            <tr>
+                                <td>Composer</td>
+                                <td>2.0+</td>
+                                <td>PHP dependencies</td>
+                                <td><a href="https://getcomposer.org/" target="_blank">getcomposer.org</a></td>
+                            </tr>
+                            <tr>
+                                <td>MySQL/PostgreSQL</td>
+                                <td>8.0+ / 13+</td>
+                                <td>Database (optional)</td>
+                                <td><a href="https://www.mysql.com/" target="_blank">mysql.com</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Optional Development Tools</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>Code Editors</h4>
+                        <ul>
+                            <li><strong>VS Code</strong> - Recommended (free)</li>
+                            <li><strong>PhpStorm</strong> - Professional PHP IDE</li>
+                            <li><strong>Sublime Text</strong> - Lightweight editor</li>
+                            <li><strong>Atom</strong> - GitHub's editor</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Browser Tools</h4>
+                        <ul>
+                            <li><strong>Chrome DevTools</strong> - Debugging</li>
+                            <li><strong>Firefox Developer</strong> - Alternative</li>
+                            <li><strong>Postman</strong> - API testing</li>
+                            <li><strong>REST Client</strong> - VS Code extension</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Server Tools</h4>
+                        <ul>
+                            <li><strong>XAMPP</strong> - Full stack (Windows/Mac)</li>
+                            <li><strong>WAMP</strong> - Windows stack</li>
+                            <li><strong>MAMP</strong> - Mac stack</li>
+                            <li><strong>Docker</strong> - Containerized development</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Database Tools</h4>
+                        <ul>
+                            <li><strong>phpMyAdmin</strong> - MySQL admin</li>
+                            <li><strong>Adminer</strong> - Lightweight DB tool</li>
+                            <li><strong>DBeaver</strong> - Universal database tool</li>
+                            <li><strong>MySQL Workbench</strong> - MySQL specific</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="git-setup">
+                <h2>Git Setup</h2>
+                
+                <h3>Step 1: Fork and Clone Repository</h3>
+                
+                <h4>Option A: Fork Method (Recommended for Contributions)</h4>
+                <div class="code-block">
+                    <code># 1. Fork the repository on GitHub
+# Visit: https://github.com/your-repo/ai-chat-studio
+# Click "Fork" button
+
+# 2. Clone your fork
+git clone https://github.com/your-username/ai-chat-studio.git
+cd ai-chat-studio
+
+# 3. Add upstream remote
+git remote add upstream https://github.com/original-repo/ai-chat-studio.git
+
+# 4. Verify remotes
+git remote -v
+</code>
+                </div>
+
+                <h4>Option B: Direct Clone (For Personal Use)</h4>
+                <div class="code-block">
+                    <code># Clone directly
+git clone https://github.com/your-repo/ai-chat-studio.git
+cd ai-chat-studio
+</code>
+                </div>
+
+                <h3>Step 2: Configure Git</h3>
+                <div class="code-block">
+                    <code># Set your identity
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+
+# Set default branch name
+git config --global init.defaultBranch main
+
+# Set pull behavior
+git config --global pull.rebase false
+
+# Set line endings (Windows)
+git config --global core.autocrlf true
+
+# Set line endings (Linux/macOS)
+git config --global core.autocrlf input
+</code>
+                </div>
+
+                <h3>Step 3: Create Development Branch</h3>
+                <div class="code-block">
+                    <code># Create and switch to development branch
+git checkout -b development
+
+# Or for feature branches
+git checkout -b feature/your-feature-name
+
+# Set upstream for new branch
+git push -u origin development
+</code>
+                </div>
+
+                <div class="success">
+                    <strong>Branch Strategy:</strong> Use <code>main</code> for stable releases, <code>development</code> for integration, and <code>feature/feature-name</code> for individual features.
+                </div>
+            </div>
+
+            <div class="section" id="project-structure">
+                <h2>Project Structure</h2>
+                
+                <p>Understanding the project structure is crucial for efficient development. AI Chat Studio follows a modular architecture:</p>
+
+                <div class="file-tree">
+ai-chat-studio/
+├── <span class="folder">docs/</span>                    # Documentation
+│   ├── quick-start-guide.html
+│   ├── api-configuration-guide.html
+│   ├── development-setup-guide.html
+│   └── hosting-tutorial.html
+├── <span class="folder">v2.0.0/</span>                 # Latest version (main development)
+│   ├── <span class="folder">api/</span>                 # Backend API endpoints
+│   │   └── chat.php              # Main chat API handler
+│   ├── <span class="folder">assets/</span>              # Frontend assets
+│   │   ├── <span class="folder">css/</span>             # Stylesheets
+│   │   ├── <span class="folder">js/</span>              # JavaScript files
+│   │   ├── <span class="folder">images/</span>          # Image assets
+│   │   └── <span class="folder">fonts/</span>           # Font files
+│   ├── <span class="folder">pages/</span>               # Additional pages
+│   │   ├── about.php
+│   │   ├── settings.php
+│   │   └── faqs.php
+│   ├── index.php                 # Main entry point
+│   ├── manifest.json             # PWA manifest
+│   └── <span class="folder">vendor/</span>             # Composer dependencies
+├── <span class="folder">main/</span>                    # Alternative version
+├── <span class="folder">v1.0.0/</span>                 # Legacy version
+├── <span class="folder">tests/</span>                   # Unit tests
+├── composer.json                 # PHP dependencies
+├── package.json                  # Node.js dependencies
+├── .gitignore                    # Git ignore rules
+├── .env.example                  # Environment template
+└── README.md                     # Project documentation
+                </div>
+
+                <h3>Key Files and Directories</h3>
+                
+                <h4>Core Application Files</h4>
+                <ul>
+                    <li><code>index.php</code> - Main entry point, handles routing and initialization</li>
+                    <li><code>api/chat.php</code> - Core chat API endpoint, handles AI provider communication</li>
+                    <li><code>assets/js/app.js</code> - Main JavaScript application logic</li>
+                    <li><code>assets/css/style.css</code> - Main stylesheet</li>
+                </ul>
+
+                <h4>Configuration Files</h4>
+                <ul>
+                    <li><code>.env.example</code> - Environment variables template</li>
+                    <li><code>composer.json</code> - PHP dependencies and autoloading</li>
+                    <li><code>package.json</code> - Node.js dependencies for build tools</li>
+                </ul>
+
+                <div class="warning">
+                    <strong>Important:</strong> Never commit sensitive data like API keys or real .env files. Use .env.example as a template.
+                </div>
+            </div>
+
+            <div class="section" id="local-environment">
+                <h2>Local Environment Setup</h2>
+                
+                <h3>Step 1: Install Dependencies</h3>
+                
+                <h4>PHP Dependencies</h4>
+                <div class="code-block">
+                    <code># Navigate to project root
+cd ai-chat-studio
+
+# Install PHP dependencies
+composer install
+
+# If you need to update dependencies
+composer update
+</code>
+                </div>
+
+                <h4>Node.js Dependencies (Optional)</h4>
+                <div class="code-block">
+                    <code># Install Node.js dependencies
+npm install
+
+# Or with yarn
+yarn install
+</code>
+                </div>
+
+                <h3>Step 2: Environment Configuration</h3>
+                
+                <h4>Create Environment File</h4>
+                <div class="code-block">
+                    <code># Copy example environment file
+cp .env.example .env
+
+# Edit the .env file with your settings
+nano .env
+</code>
+                </div>
+
+                <h4>Example .env Configuration</h4>
+                <div class="code-block">
+                    <code># Environment
+APP_ENV=development
+APP_DEBUG=true
+APP_URL=http://localhost:8001
+
+# AI Provider API Keys (DO NOT COMMIT REAL KEYS)
+OPENAI_API_KEY=sk-test-key-for-development
+ANTHROPIC_API_KEY=sk-ant-test-key-for-development
+GOOGLE_API_KEY=test-google-key-for-development
+
+# Database (Optional - for user accounts, chat history, etc.)
+DB_HOST=localhost
+DB_DATABASE=ai_chat_studio
+DB_USERNAME=root
+DB_PASSWORD=
+
+# Security
+SECRET_KEY=your-secret-key-here
+ENCRYPTION_KEY=your-encryption-key-here
+
+# Development Settings
+LOG_LEVEL=debug
+CACHE_ENABLED=false
+</code>
+                </div>
+
+                <h3>Step 3: Start Development Server</h3>
+                
+                <h4>Option A: PHP Built-in Server (Recommended)</h4>
+                <div class="code-block">
+                    <code># Navigate to v2.0.0 directory
+cd v2.0.0
+
+# Start PHP development server
+php -S localhost:8001
+
+# With custom document root
+php -S localhost:8001 -t public/
+
+# Enable PHP built-in server with router
+php -S localhost:8001 router.php
+</code>
+                </div>
+
+                <h4>Option B: Using Build-in Scripts</h4>
+                <div class="code-block">
+                    <code># Add to package.json scripts section:
+{
+  "scripts": {
+    "dev": "php -S localhost:8001 -t v2.0.0",
+    "dev:watch": "nodemon --exec 'php -S localhost:8001 -t v2.0.0'",
+    "test": "phpunit tests/",
+    "lint": "eslint assets/js/",
+    "build": "npm run lint && npm run test"
+  }
+}
+
+# Run development server
+npm run dev
+</code>
+                </div>
+
+                <h4>Option C: Docker Development</h4>
+                <div class="code-block">
+                    <code># Create docker-compose.yml for development
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8001:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/php.ini:/usr/local/etc/php/php.ini
+    environment:
+      - APP_ENV=development
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ai_chat_studio
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+</code>
+                </div>
+
+                <div class="success">
+                    <strong>Development Server:</strong> Your application should now be accessible at http://localhost:8001
+                </div>
+            </div>
+
+            <div class="section" id="ide-setup">
+                <h2>IDE Setup</h2>
+                
+                <h3>Visual Studio Code (Recommended)</h3>
+                
+                <h4>Essential Extensions</h4>
+                <div class="code-block">
+                    <code># Install via command line or VS Code interface
+code --install-extension bmewburn.vscode-intelephense-client
+code --install-extension xdebug.php-debug
+code --install-extension ms-vscode.vscode-json
+code --install-extension bradlc.vscode-tailwindcss
+code --install-extension esbenp.prettier-vscode
+code --install-extension ms-vscode.vscode-eslint
+</code>
+                </div>
+
+                <h4>VS Code Settings (.vscode/settings.json)</h4>
+                <div class="code-block">
+                    <code>{
+  "php.validate.executablePath": "/usr/bin/php",
+  "php.suggest.basic": false,
+  "intelephense.files.maxSize": 5000000,
+  "intelephense.telemetry.enabled": false,
+  "emmet.includeLanguages": {
+    "php": "html"
+  },
+  "html.format.indentInnerHtml": true,
+  "css.validate": true,
+  "js.validate.enable": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "files.associations": {
+    "*.php": "php"
+  },
+  "debug.internalConsoleOptions": "neverOpen"
+}
+</code>
+                </div>
+
+                <h4>VS Code Launch Configuration (.vscode/launch.json)</h4>
+                <div class="code-block">
+                    <code>{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Listen for Xdebug",
+      "type": "php",
+      "request": "launch",
+      "port": 9003,
+      "pathMappings": {
+        "/var/www/html": "${workspaceFolder}"
+      }
+    },
+    {
+      "name": "Launch currently open script",
+      "type": "php",
+      "request": "launch",
+      "program": "${file}",
+      "cwd": "${fileDirname}",
+      "port": 9003,
+      "runtimeArgs": [
+        "-dxdebug.mode=debug",
+        "-dxdebug.start_with_request=yes"
+      ]
+    }
+  ]
+}
+</code>
+                </div>
+
+                <h3>PhpStorm Configuration</h3>
+                
+                <h4>PHP Interpreter Setup</h4>
+                <ol>
+                    <li>Go to <code>File → Settings → PHP → CLI Interpreter</code></li>
+                    <li>Add interpreter pointing to your PHP installation</li>
+                    <li>Configure PHP level to 8.0+</li>
+                </ol>
+
+                <h4>Code Style Configuration</h4>
+                <div class="code-block">
+                    <code># Import PSR-12 coding standards
+# Download from: https://www.php-fig.org/psr/psr-12/
+# Import in: File → Settings → Editor → Code Style → PHP
+</code>
+                </div>
+            </div>
+
+            <div class="section" id="development-tools">
+                <h2>Development Tools</h2>
+                
+                <h3>Build Tools Setup</h3>
+                
+                <h4>Webpack/Gulp Configuration (Optional)</h4>
+                <div class="code-block">
+                    <code># webpack.config.js
+const path = require('path');
+
+module.exports = {
+  entry: './assets/js/app.js',
+  output: {
+    path: path.resolve(__dirname, 'v2.0.0/assets/js'),
+    filename: 'bundle.js'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader', 'postcss-loader']
+      }
+    ]
+  },
+  devServer: {
+    contentBase: './v2.0.0',
+    port: 3000,
+    hot: true
+  }
+};
+</code>
+                </div>
+
+                <h4>PostCSS Configuration</h4>
+                <div class="code-block">
+                    <code># postcss.config.js
+module.exports = {
+  plugins: [
+    require('autoprefixer'),
+    require('cssnano')
+  ]
+};
+</code>
+                </div>
+
+                <h3>Code Quality Tools</h3>
+                
+                <h4>ESLint Configuration</h4>
+                <div class="code-block">
+                    <code># .eslintrc.js
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true
+  },
+  extends: [
+    'eslint:recommended'
+  ],
+  parserOptions: {
+    ecmaVersion: 12,
+    sourceType: 'module'
+  },
+  rules: {
+    'indent': ['error', 2],
+    'linebreak-style': ['error', 'unix'],
+    'quotes': ['error', 'single'],
+    'semi': ['error', 'always']
+  }
+};
+</code>
+                </div>
+
+                <h4>PHP CodeSniffer</h4>
+                <div class="code-block">
+                    <code># Install PHP CodeSniffer
+composer require --dev squizlabs/php_codesniffer
+
+# Configure coding standards
+./vendor/bin/phpcs --config-set default_standard PSR12
+./vendor/bin/phpcs --config-set installed_paths vendor/phpcompatibility/php-compatibility
+
+# Run code analysis
+./vendor/bin/phpcs v2.0.0/api/
+./vendor/bin/phpcbf v2.0.0/api/  # Auto-fix issues
+</code>
+                </div>
+
+                <h3>Database Tools</h3>
+                
+                <h4>Database Migrations</h4>
+                <div class="code-block">
+                    <code># Create migration file
+php artisan make:migration create_chat_sessions_table
+
+# Run migrations
+php artisan migrate
+
+# Rollback migrations
+php artisan migrate:rollback
+</code>
+                </div>
+            </div>
+
+            <div class="section" id="coding-standards">
+                <h2>Coding Standards</h2>
+                
+                <h3>PHP Coding Standards</h3>
+                
+                <h4>PSR-12 Compliance</h4>
+                <div class="code-block">
+                    <code><?php
+
+declare(strict_types=1);
+
+namespace AiChatStudio\Api;
+
+use AiChatStudio\Contracts\ChatProviderInterface;
+use Exception;
+
+/**
+ * Chat API handler for AI Chat Studio
+ * 
+ * @package AiChatStudio\Api
+ * @since 2.0.0
+ */
+final class ChatHandler
+{
+    private ChatProviderInterface $provider;
+    private array $config;
+
+    /**
+     * Constructor
+     *
+     * @param ChatProviderInterface $provider
+     * @param array $config
+     */
+    public function __construct(ChatProviderInterface $provider, array $config)
+    {
+        $this->provider = $provider;
+        $this->config = $config;
+    }
+
+    /**
+     * Process chat request
+     *
+     * @param array $request
+     * @return array
+     * @throws Exception
+     */
+    public function processRequest(array $request): array
+    {
+        try {
+            $this->validateRequest($request);
+            
+            $response = $this->provider->chat($request['message']);
+            
+            return [
+                'success' => true,
+                'data' => $response,
+                'timestamp' => time()
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'error' => $e->getMessage(),
+                'timestamp' => time()
+            ];
+        }
+    }
+
+    /**
+     * Validate incoming request
+     *
+     * @param array $request
+     * @return void
+     * @throws Exception
+     */
+    private function validateRequest(array $request): void
+    {
+        if (empty($request['message'])) {
+            throw new Exception('Message is required');
+        }
+
+        if (strlen($request['message']) > 4000) {
+            throw new Exception('Message too long');
+        }
+    }
+}
+</code>
+                </div>
+
+                <h4>Documentation Standards</h4>
+                <ul>
+                    <li>Use PHPDoc for all classes, methods, and functions</li>
+                    <li>Include parameter types and return types</li>
+                    <li>Document exceptions that can be thrown</li>
+                    <li>Keep docblocks up to date with code changes</li>
+                </ul>
+
+                <h3>JavaScript Coding Standards</h3>
+                
+                <h4>ES6+ Best Practices</h4>
+                <div class="code-block">
+                    <code>/**
+ * Chat Application Controller
+ * @class ChatController
+ * @description Handles chat UI interactions and API communication
+ */
+class ChatController {
+    constructor() {
+        this.apiEndpoint = '/api/chat.php';
+        this.messageQueue = [];
+        this.isProcessing = false;
+        this.init();
+    }
+
+    /**
+     * Initialize the chat controller
+     * @returns {void}
+     */
+    init() {
+        this.bindEvents();
+        this.loadChatHistory();
+    }
+
+    /**
+     * Bind DOM event listeners
+     * @returns {void}
+     */
+    bindEvents() {
+        const sendButton = document.getElementById('send-button');
+        const messageInput = document.getElementById('message-input');
+        
+        sendButton?.addEventListener('click', this.handleSend.bind(this));
+        messageInput?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                this.handleSend();
+            }
+        });
+    }
+
+    /**
+     * Handle message sending
+     * @param {string} message 
+     * @returns {Promise<void>}
+     */
+    async sendMessage(message) {
+        if (!message.trim()) {
+            return;
+        }
+
+        try {
+            this.showTypingIndicator();
+            
+            const response = await this.apiCall({
+                message: message.trim(),
+                timestamp: Date.now()
+            });
+
+            this.displayMessage(response.data, 'assistant');
+            this.saveToHistory(message, response.data);
+            
+        } catch (error) {
+            this.handleError(error);
+        } finally {
+            this.hideTypingIndicator();
+        }
+    }
+
+    /**
+     * Make API call to backend
+     * @param {Object} data 
+     * @returns {Promise<Object>}
+     * @throws {Error} API call failed
+     */
+    async apiCall(data) {
+        const response = await fetch(this.apiEndpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.json();
+    }
+}
+</code>
+                </div>
+
+                <h3>CSS/Styling Standards</h3>
+                
+                <h4>BEM Methodology</h4>
+                <div class="code-block">
+                    <code>/* Block */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Element */
+.chat-container__header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 8px 8px 0 0;
+}
+
+.chat-container__messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    background: #f8f9fa;
+}
+
+.chat-container__input {
+    border: none;
+    border-top: 1px solid #dee2e6;
+    padding: 1rem 2rem;
+    background: white;
+}
+
+/* Modifier */
+.chat-container--fullscreen {
+    height: 100vh;
+    max-width: none;
+    border-radius: 0;
+}
+
+.chat-container__messages--compact {
+    padding: 0.5rem;
+}
+
+/* Component */
+.message {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.message--user {
+    background: #e3f2fd;
+    margin-left: 2rem;
+}
+
+.message--assistant {
+    background: #f3e5f5;
+    margin-right: 2rem;
+}
+
+.message__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.message__content {
+    flex: 1;
+    line-height: 1.5;
+}
+
+.message__timestamp {
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-top: 0.5rem;
+}
+</code>
+                </div>
+            </div>
+
+            <div class="section" id="testing">
+                <h2>Testing</h2>
+                
+                <h3>PHPUnit Setup</h3>
+                
+                <h4>Install PHPUnit</h4>
+                <div class="code-block">
+                    <code># Install PHPUnit as dev dependency
+composer require --dev phpunit/phpunit
+
+# Create phpunit.xml configuration
+./vendor/bin/phpunit --generate-configuration
+</code>
+                </div>
+
+                <h4>PHPUnit Configuration (phpunit.xml)</h4>
+                <div class="code-block">
+                    <code><?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         verbose="true">
+    <testsuites>
+        <testsuite name="Unit Tests">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Integration Tests">
+            <directory>tests/Integration</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">v2.0.0</directory>
+        </include>
+        <exclude>
+            <directory>vendor</directory>
+            <directory>tests</directory>
+        </exclude>
+    </source>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_DEBUG" value="true"/>
+    </php>
+</phpunit>
+</code>
+                </div>
+
+                <h3>Writing Tests</h3>
+                
+                <h4>Unit Test Example</h4>
+                <div class="code-block">
+                    <code><?php
+
+namespace Tests\Unit\Api;
+
+use PHPUnit\Framework\TestCase;
+use AiChatStudio\Api\ChatHandler;
+use AiChatStudio\Contracts\MockChatProvider;
+
+/**
+ * Test case for ChatHandler
+ * @group unit
+ * @group api
+ */
+class ChatHandlerTest extends TestCase
+{
+    private ChatHandler $handler;
+    private MockChatProvider $provider;
+
+    protected function setUp(): void
+    {
+        $this->provider = new MockChatProvider();
+        $this->handler = new ChatHandler($this->provider, [
+            'max_tokens' => 1024,
+            'temperature' => 0.7
+        ]);
+    }
+
+    /** @test */
+    public function it_can_process_valid_chat_request(): void
+    {
+        // Arrange
+        $request = [
+            'message' => 'Hello, how are you?',
+            'provider' => 'mock'
+        ];
+
+        // Act
+        $result = $this->handler->processRequest($request);
+
+        // Assert
+        $this->assertTrue($result['success']);
+        $this->assertArrayHasKey('data', $result);
+        $this->assertArrayHasKey('timestamp', $result);
+        $this->assertIsString($result['data']['message']);
+    }
+
+    /** @test */
+    public function it_throws_exception_for_empty_message(): void
+    {
+        // Arrange
+        $request = [
+            'message' => '',
+            'provider' => 'mock'
+        ];
+
+        // Act & Assert
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Message is required');
+        
+        $this->handler->processRequest($request);
+    }
+
+    /** @test */
+    public function it_throws_exception_for_message_too_long(): void
+    {
+        // Arrange
+        $longMessage = str_repeat('a', 5000);
+        $request = [
+            'message' => $longMessage,
+            'provider' => 'mock'
+        ];
+
+        // Act & Assert
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Message too long');
+        
+        $this->handler->processRequest($request);
+    }
+
+    /** @test */
+    public function it_handles_api_errors_gracefully(): void
+    {
+        // Arrange
+        $this->provider->setShouldFail(true);
+        $request = [
+            'message' => 'Hello',
+            'provider' => 'mock'
+        ];
+
+        // Act
+        $result = $this->handler->processRequest($request);
+
+        // Assert
+        $this->assertFalse($result['success']);
+        $this->assertArrayHasKey('error', $result);
+        $this->assertArrayHasKey('timestamp', $result);
+    }
+
+    protected function tearDown(): void
+    {
+        unset($this->handler, $this->provider);
+    }
+}
+</code>
+                </div>
+
+                <h4>JavaScript Testing with Jest</h4>
+                <div class="code-block">
+                    <code># Install Jest and testing utilities
+npm install --save-dev jest @testing-library/dom @testing-library/jest-dom
+
+# Add to package.json
+{
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": ["<rootDir>/tests/setup.js"],
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "<rootDir>/tests/__mocks__/styleMock.js"
+    }
+  }
+}
+</code>
+                </div>
+
+                <h4>JavaScript Test Example</h4>
+                <div class="code-block">
+                    <code>// tests/ChatController.test.js
+import ChatController from '../v2.0.0/assets/js/ChatController';
+
+// Mock fetch globally
+global.fetch = jest.fn();
+
+describe('ChatController', () => {
+    let controller;
+    let mockElement;
+
+    beforeEach(() => {
+        // Mock DOM elements
+        mockElement = {
+            addEventListener: jest.fn(),
+            querySelector: jest.fn(() => ({ value: 'test message' }))
+        };
+
+        // Mock document methods
+        document.getElementById = jest.fn(() => mockElement);
+        document.querySelector = jest.fn(() => mockElement);
+
+        // Reset fetch mock
+        fetch.mockClear();
+
+        // Create controller instance
+        controller = new ChatController();
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+    test('should initialize chat controller', () => {
+        expect(controller.apiEndpoint).toBe('/api/chat.php');
+        expect(controller.isProcessing).toBe(false);
+        expect(Array.isArray(controller.messageQueue)).toBe(true);
+    });
+
+    test('should bind event listeners on initialization', () => {
+        expect(mockElement.addEventListener).toHaveBeenCalledWith(
+            'click',
+            expect.any(Function)
+        );
+    });
+
+    test('should send message successfully', async () => {
+        // Mock successful API response
+        fetch.mockResolvedValueOnce({
+            ok: true,
+            json: async () => ({
+                success: true,
+                data: { message: 'Hello! How can I help you?' }
+            })
+        });
+
+        await controller.sendMessage('Hello');
+
+        expect(fetch).toHaveBeenCalledWith(
+            '/api/chat.php',
+            expect.objectContaining({
+                method: 'POST',
+                headers: expect.objectContaining({
+                    'Content-Type': 'application/json'
+                }),
+                body: JSON.stringify({
+                    message: 'Hello',
+                    timestamp: expect.any(Number)
+                })
+            })
+        );
+    });
+
+    test('should handle API errors gracefully', async () => {
+        // Mock failed API response
+        fetch.mockRejectedValueOnce(new Error('Network error'));
+
+        // Should not throw error, but handle it gracefully
+        await expect(controller.sendMessage('Hello')).resolves.not.toThrow();
+    });
+
+    test('should not send empty messages', async () => {
+        const result = await controller.sendMessage('');
+
+        expect(fetch).not.toHaveBeenCalled();
+        expect(result).toBeUndefined();
+    });
+});
+</code>
+                </div>
+
+                <h3>Running Tests</h3>
+                <div class="code-block">
+                    <code># Run all tests
+npm test
+
+# Run tests with coverage
+npm run test:coverage
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run specific test file
+./vendor/bin/phpunit tests/Unit/Api/ChatHandlerTest.php
+
+# Run tests with specific group
+./vendor/bin/phpunit --group unit
+</code>
+                </div>
+            </div>
+
+            <div class="section" id="debugging">
+                <h2>Debugging</h2>
+                
+                <h3>PHP Debugging</h3>
+                
+                <h4>Xdebug Configuration</h4>
+                <div class="code-block">
+                    <code># Install Xdebug
+# Ubuntu/Debian
+sudo apt install php-xdebug
+
+# macOS with Homebrew
+brew install php-xdebug
+
+# Windows
+# Download from https://xdebug.org/download.php
+</code>
+                </div>
+
+                <h4>PHP.ini Configuration (xdebug.ini)</h4>
+                <div class="code-block">
+                    <code>zend_extension=xdebug.so
+
+[xdebug]
+xdebug.mode=debug
+xdebug.start_with_request=yes
+xdebug.client_host=localhost
+xdebug.client_port=9003
+xdebug.log=/tmp/xdebug.log
+xdebug.idekey=VSCODE
+
+; For development
+xdebug.var_display_max_depth=10
+xdebug.var_display_max_children=256
+xdebug.var_display_max_data=1024
+</code>
+                </div>
+
+                <h4>Debug Logging</h4>
+                <div class="code-block">
+                    <code><?php
+
+// Enable error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Custom debug function
+function debug_log($message, $data = null) {
+    if (defined('DEBUG_MODE') && DEBUG_MODE) {
+        $timestamp = date('Y-m-d H:i:s');
+        $logMessage = "[{$timestamp}] {$message}";
+        
+        if ($data !== null) {
+            $logMessage .= ' ' . json_encode($data, JSON_PRETTY_PRINT);
+        }
+        
+        error_log($logMessage);
+        
+        // Also log to custom file
+        file_put_contents('debug.log', $logMessage . PHP_EOL, FILE_APPEND);
+    }
+}
+
+// Usage examples
+debug_log('Function called', ['param1' => $value1, 'param2' => $value2]);
+debug_log('API request', $requestData);
+debug_log('Response received', $responseData);
+</code>
+                </div>
+
+                <h3>JavaScript Debugging</h3>
+                
+                <h4>Debug Console Utilities</h4>
+                <div class="code-block">
+                    <code>/**
+ * Debug utilities for development
+ */
+class DebugHelper {
+    /**
+     * Enhanced console logging
+     */
+    static log(message, data = null, type = 'log') {
+        if (typeof DebugHelper !== 'undefined' && DebugHelper.enabled) {
+            const timestamp = new Date().toISOString();
+            const logMessage = `[${timestamp}] ${message}`;
+            
+            if (data) {
+                console[type](logMessage, data);
+            } else {
+                console[type](logMessage);
+            }
+        }
+    }
+
+    /**
+     * Log API calls
+     */
+    static logApiCall(url, method, data, response) {
+        DebugHelper.log(`API ${method} ${url}`, {
+            request: data,
+            response: response,
+            duration: Date.now() - DebugHelper.lastApiCallTime
+        }, 'info');
+    }
+
+    /**
+     * Log performance metrics
+     */
+    static logPerformance(label, fn) {
+        const start = performance.now();
+        const result = fn();
+        const duration = performance.now() - start;
+        DebugHelper.log(`Performance: ${label}`, { duration: `${duration.toFixed(2)}ms` });
+        return result;
+    }
+
+    /**
+     * Monitor memory usage
+     */
+    static logMemory() {
+        if (performance.memory) {
+            DebugHelper.log('Memory Usage', {
+                used: `${(performance.memory.usedJSHeapSize / 1048576).toFixed(2)}MB`,
+                total: `${(performance.memory.totalJSHeapSize / 1048576).toFixed(2)}MB`,
+                limit: `${(performance.memory.jsHeapSizeLimit / 1048576).toFixed(2)}MB`
+            });
+        }
+    }
+}
+
+// Enable/disable debugging
+DebugHelper.enabled = true;
+
+// Auto-log memory every 30 seconds in development
+if (DebugHelper.enabled && window.location.hostname === 'localhost') {
+    setInterval(DebugHelper.logMemory, 30000);
+}
+
+// Usage in your code
+DebugHelper.log('Chat initialized');
+DebugHelper.logApiCall('/api/chat.php', 'POST', requestData, responseData);
+</code>
+                </div>
+
+                <h4>Network Debugging</h4>
+                <div class="code-block">
+                    <code>/**
+ * Network request monitoring
+ */
+class NetworkMonitor {
+    static requests = [];
+    
+    static startMonitoring() {
+        const originalFetch = window.fetch;
+        
+        window.fetch = async function(...args) {
+            const url = args[0];
+            const options = args[1] || {};
+            const startTime = Date.now();
+            
+            NetworkMonitor.logRequest('start', url, options);
+            
+            try {
+                const response = await originalFetch.apply(this, args);
+                const duration = Date.now() - startTime;
+                
+                NetworkMonitor.logRequest('complete', url, {
+                    status: response.status,
+                    duration: `${duration}ms`
+                });
+                
+                return response;
+            } catch (error) {
+                const duration = Date.now() - startTime;
+                
+                NetworkMonitor.logRequest('error', url, {
+                    error: error.message,
+                    duration: `${duration}ms`
+                });
+                
+                throw error;
+            }
+        };
+    }
+    
+    static logRequest(status, url, data) {
+        const entry = {
+            timestamp: new Date().toISOString(),
+            status,
+            url,
+            data
+        };
+        
+        NetworkMonitor.requests.push(entry);
+        
+        // Log to console
+        console.group(`<i class="fas fa-globe"></i> Network ${status.toUpperCase()}`);
+        console.log('URL:', url);
+        console.log('Data:', data);
+        console.groupEnd();
+        
+        // Limit stored requests
+        if (NetworkMonitor.requests.length > 100) {
+            NetworkMonitor.requests.shift();
+        }
+    }
+    
+    static getReport() {
+        const total = NetworkMonitor.requests.length;
+        const errors = NetworkMonitor.requests.filter(r => r.status === 'error').length;
+        const averageDuration = NetworkMonitor.requests
+            .filter(r => r.data.duration)
+            .reduce((sum, r) => sum + parseInt(r.data.duration), 0) / total;
+            
+        return {
+            total,
+            errors,
+            errorRate: `${((errors / total) * 100).toFixed(1)}%`,
+            averageDuration: `${averageDuration.toFixed(0)}ms`
+        };
+    }
+}
+
+// Enable in development
+if (window.location.hostname === 'localhost') {
+    NetworkMonitor.startMonitoring();
+}
+</code>
+                </div>
+            </div>
+
+            <div class="section" id="workflow">
+                <h2>Development Workflow</h2>
+                
+                <h3>Feature Development Process</h3>
+                
+                <h4>Step 1: Create Feature Branch</h4>
+                <div class="code-block">
+                    <code># Update main branch
+git checkout main
+git pull upstream main
+
+# Create feature branch
+git checkout -b feature/your-feature-name
+
+# Push to origin
+git push -u origin feature/your-feature-name
+</code>
+                </div>
+
+                <h4>Step 2: Development Cycle</h4>
+                <div class="code-block">
+                    <code># Make changes and commit frequently
+git add .
+git commit -m "feat: add new chat feature
+
+- Add message history persistence
+- Implement typing indicators
+- Add user preferences storage"
+
+# Run tests before commit
+npm test
+./vendor/bin/phpunit
+
+# Check code quality
+npm run lint
+./vendor/bin/phpcs v2.0.0/
+</code>
+                </div>
+
+                <h4>Step 3: Code Review Process</h4>
+                <ol>
+                    <li><strong>Self Review:</strong> Review your own code changes</li>
+                    <li><strong>Test Coverage:</strong> Ensure tests cover new functionality</li>
+                    <li><strong>Documentation:</strong> Update relevant documentation</li>
+                    <li><strong>Pull Request:</strong> Create PR with clear description</li>
+                    <li><strong>Address Feedback:</strong> Make requested changes</li>
+                    <li><strong>Merge:</strong> After approval, merge to main branch</li>
+                </ol>
+
+                <h3>Commit Message Standards</h3>
+                
+                <h4>Conventional Commits Format</h4>
+                <div class="code-block">
+                    <code>type(scope): description
+
+[optional body]
+
+[optional footer]
+
+# Types:
+feat:     New feature
+fix:      Bug fix
+docs:     Documentation changes
+style:    Code style changes (formatting, etc.)
+refactor: Code refactoring
+test:     Adding or updating tests
+chore:    Maintenance tasks
+
+# Examples:
+feat(chat): add message encryption
+fix(api): resolve timeout issues in chat handler
+docs(readme): update installation instructions
+refactor(ui): improve responsive layout
+test(api): add unit tests for ChatHandler
+chore(deps): update composer dependencies
+</code>
+                </div>
+
+                <h3>Release Process</h3>
+                
+                <h4>Version Management</h4>
+                <div class="code-block">
+                    <code># Update version numbers
+# 1. Update version in index.php
+# 2. Update package.json version
+# 3. Update CHANGELOG.md
+
+# Create release branch
+git checkout -b release/v2.1.0
+
+# Final testing and bug fixes
+npm test
+./vendor/bin/phpunit
+npm run build
+
+# Merge to main
+git checkout main
+git merge release/v2.1.0
+git tag v2.1.0
+
+# Push tags
+git push origin main --tags
+</code>
+                </div>
+
+                <h4>Deployment Checklist</h4>
+                <div class="success">
+                    <strong>Pre-Production Checklist:</strong>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> All tests passing</li>
+                        <li><i class="fas fa-check-circle"></i> Code review completed</li>
+                        <li><i class="fas fa-check-circle"></i> Documentation updated</li>
+                        <li><i class="fas fa-check-circle"></i> Performance testing done</li>
+                        <li><i class="fas fa-check-circle"></i> Security review completed</li>
+                        <li><i class="fas fa-check-circle"></i> Backward compatibility verified</li>
+                        <li><i class="fas fa-check-circle"></i> Database migrations tested</li>
+                        <li><i class="fas fa-check-circle"></i> Environment variables configured</li>
+                        <li><i class="fas fa-check-circle"></i> SSL certificates valid</li>
+                        <li><i class="fas fa-check-circle"></i> Error monitoring configured</li>
+                    </ul>
+                </div>
+
+                <div class="info">
+                    <strong>Continuous Integration:</strong> Consider setting up GitHub Actions or similar CI/CD pipelines to automate testing, linting, and deployment processes.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

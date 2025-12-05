@@ -1,0 +1,2728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Customization Guide - AI Chat Studio v2.0.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: #333;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            margin-top: 25px;
+        }
+
+        .section h4 {
+            color: #555;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .section ul, .section ol {
+            margin-bottom: 15px;
+            padding-left: 30px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .code-block code {
+            background: none;
+            padding: 0;
+            color: #d63384;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .warning strong {
+            color: #856404;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .info strong {
+            color: #0c5460;
+        }
+
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .success strong {
+            color: #155724;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h4 {
+            color: #667eea;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .nav {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .nav h3 {
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .nav a {
+            display: block;
+            color: #495057;
+            text-decoration: none;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .nav a:hover {
+            color: #667eea;
+        }
+
+        .nav a:last-child {
+            border-bottom: none;
+        }
+
+        .color-picker {
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+            border-radius: 3px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        .color-dark { background: #2c3e50; }
+        .color-blue { background: #3498db; }
+        .color-purple { background: #9b59b6; }
+        .color-green { background: #27ae60; }
+        .color-orange { background: #e67e22; }
+        .color-red { background: #e74c3c; }
+
+        .preview-box {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            background: #f9f9f9;
+        }
+
+        .theme-preview {
+            display: inline-block;
+            width: 100px;
+            height: 60px;
+            margin: 10px;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 60px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .file-structure {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 15px 0;
+        }
+
+        .file-structure .folder { color: #667eea; }
+        .file-structure .file { color: #28a745; }
+        .file-structure .comment { color: #6c757d; }
+
+        .screenshot {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 15px 0;
+            text-align: center;
+            background: white;
+        }
+
+        .screenshot::before {
+            content: "\f03a ";
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Customization Guide</h1>
+            <p>Personalize AI Chat Studio v2.0.0 to match your style and needs</p>
+        </div>
+
+        <div class="nav">
+            <h3>Table of Contents</h3>
+            <a href="#overview">Overview</a>
+            <a href="#themes">Themes & Styling</a>
+            <a href="#colors">Color Schemes</a>
+            <a href="#fonts">Typography</a>
+            <a href="#layout">Layout Customization</a>
+            <a href="#branding">Branding</a>
+            <a href="#features">Feature Customization</a>
+            <a href="#ui-components">UI Components</a>
+            <a href="#internationalization">Internationalization</a>
+            <a href="#plugins">Plugin System</a>
+            <a href="#advanced">Advanced Customization</a>
+        </div>
+
+        <div class="content">
+            <div class="section" id="overview">
+                <h2>Overview</h2>
+                <p>AI Chat Studio v2.0.0 is designed to be highly customizable, allowing you to create a unique chat experience that reflects your personal style or brand. This guide covers all aspects of customization, from simple theme changes to advanced feature modifications.</p>
+                
+                <div class="info">
+                    <strong>What You Can Customize:</strong>
+                    <ul>
+                        <li>Visual themes and color schemes</li>
+                        <li>Typography and fonts</li>
+                        <li>Layout and spacing</li>
+                        <li>Branding and logos</li>
+                        <li>Chat behavior and features</li>
+                        <li>UI components and animations</li>
+                        <li>Languages and localization</li>
+                        <li>Advanced functionality through plugins</li>
+                    </ul>
+                </div>
+
+                <h3>Customization Levels</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4><i class="fas fa-palette"></i> Basic Themes</h4>
+                        <p>Pre-built color schemes and styling options that can be applied with a few clicks.</p>
+                    </div>
+                    <div class="card">
+                        <h4><i class="fas fa-paint-brush"></i> CSS Modifications</h4>
+                        <p>Custom CSS changes for deeper visual customization and layout modifications.</p>
+                    </div>
+                    <div class="card">
+                        <h4><i class="fas fa-cog"></i> Configuration Changes</h4>
+                        <p>Settings and options that modify behavior, features, and functionality.</p>
+                    </div>
+                    <div class="card">
+                        <h4><i class="fas fa-wrench"></i> Code Modifications</h4>
+                        <p>Advanced customization through PHP, JavaScript, and HTML modifications.</p>
+                    </div>
+                </div>
+
+                <div class="warning">
+                    <strong>Backup First:</strong> Always backup your customized files before making changes. Consider using version control to track your modifications.
+                </div>
+            </div>
+
+            <div class="section" id="themes">
+                <h2>Themes & Styling</h2>
+                
+                <h3>Built-in Themes</h3>
+                <p>AI Chat Studio comes with several pre-designed themes that you can switch between instantly:</p>
+
+                <div class="preview-box">
+                    <h4>Available Themes:</h4>
+                    <div class="theme-preview" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        Default
+                    </div>
+                    <div class="theme-preview" style="background: #2c3e50;">
+                        Dark
+                    </div>
+                    <div class="theme-preview" style="background: #3498db;">
+                        Ocean
+                    </div>
+                    <div class="theme-preview" style="background: #27ae60; color: white;">
+                        Forest
+                    </div>
+                    <div class="theme-preview" style="background: #e67e22;">
+                        Sunset
+                    </div>
+                    <div class="theme-preview" style="background: #8e44ad;">
+                        Purple
+                    </div>
+                </div>
+
+                <h3>Applying Themes</h3>
+                
+                <h4>Method 1: GUI Settings</h4>
+                <ol>
+                    <li>Open AI Chat Studio in your browser</li>
+                    <li>Navigate to Settings or Preferences</li>
+                    <li>Select "Themes" or "Appearance"</li>
+                    <li>Choose your preferred theme from the dropdown</li>
+                    <li>Click "Apply" or "Save"</li>
+                </ol>
+
+                <h4>Method 2: CSS File Modification</h4>
+                <div class="code-block">
+                    <code>/* Add to your custom CSS file or inline styles */
+
+/* Dark Theme */
+.theme-dark {
+    --primary-color: #2c3e50;
+    --secondary-color: #34495e;
+    --background-color: #1a252f;
+    --text-color: #ecf0f1;
+    --message-user-bg: #3498db;
+    --message-assistant-bg: #2c3e50;
+    --border-color: #34495e;
+}
+
+/* Ocean Theme */
+.theme-ocean {
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --background-color: #ecf0f1;
+    --text-color: #2c3e50;
+    --message-user-bg: #3498db;
+    --message-assistant-bg: #5dade2;
+    --border-color: #bdc3c7;
+}
+
+/* Custom Theme Variables */
+:root {
+    --primary-color: #your-color;
+    --secondary-color: #your-secondary;
+    --background-color: #your-background;
+    --text-color: #your-text-color;
+    --font-family: 'Your Font', sans-serif;
+    --border-radius: 8px;
+    --box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+</code>
+                </div>
+
+                <h3>Creating Custom Themes</h3>
+                
+                <h4>Step 1: Define CSS Variables</h4>
+                <div class="code-block">
+                    <code>/* Create a new file: custom-theme.css */
+:root {
+    /* Primary Colors */
+    --primary-color: #6366f1;
+    --primary-hover: #5855eb;
+    --primary-light: #a5b4fc;
+    
+    /* Secondary Colors */
+    --secondary-color: #8b5cf6;
+    --secondary-hover: #7c3aed;
+    --secondary-light: #c4b5fd;
+    
+    /* Background Colors */
+    --background-primary: #ffffff;
+    --background-secondary: #f8fafc;
+    --background-tertiary: #f1f5f9;
+    
+    /* Text Colors */
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --text-inverse: #ffffff;
+    
+    /* Border Colors */
+    --border-color: #e2e8f0;
+    --border-light: #f1f5f9;
+    
+    /* Message Colors */
+    --message-user-bg: var(--primary-color);
+    --message-user-text: var(--text-inverse);
+    --message-assistant-bg: var(--background-tertiary);
+    --message-assistant-text: var(--text-primary);
+    
+    /* Status Colors */
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+    --info-color: #3b82f6;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    
+    /* Typography */
+    --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-family-mono: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.25rem;
+    
+    /* Line Heights */
+    --line-height-tight: 1.25;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.625;
+    
+    /* Transitions */
+    --transition-fast: 150ms ease-in-out;
+    --transition-normal: 300ms ease-in-out;
+    --transition-slow: 500ms ease-in-out;
+}
+</code>
+                </div>
+
+                <h4>Step 2: Apply Theme Classes</h4>
+                <div class="code-block">
+                    <code>/* Apply your custom theme */
+.theme-custom {
+    background-color: var(--background-primary);
+    color: var(--text-primary);
+    font-family: var(--font-family-base);
+}
+
+/* Chat Container */
+.chat-container {
+    background: var(--background-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+/* Messages */
+.message-user {
+    background: var(--message-user-bg);
+    color: var(--message-user-text);
+    border-radius: var(--radius-lg) var(--radius-lg) var(--radius-sm) var(--radius-lg);
+}
+
+.message-assistant {
+    background: var(--message-assistant-bg);
+    color: var(--message-assistant-text);
+    border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) var(--radius-sm);
+}
+
+/* Buttons */
+.btn-primary {
+    background: var(--primary-color);
+    color: var(--text-inverse);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    transition: background-color var(--transition-fast);
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+}
+
+/* Input Fields */
+.input-field {
+    background: var(--background-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.input-field:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+</code>
+                </div>
+            </div>
+
+            <div class="section" id="colors">
+                <h2>Color Schemes</h2>
+                
+                <h3>Color Palette Generator</h3>
+                <p>Create harmonious color schemes using these color theory principles:</p>
+
+                <div class="grid">
+                    <div class="card">
+                        <h4>Monochromatic</h4>
+                        <p>Different shades of a single color</p>
+                        <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                            <div class="color-picker" style="background: #667eea;"></div>
+                            <div class="color-picker" style="background: #5a67d8;"></div>
+                            <div class="color-picker" style="background: #4c51bf;"></div>
+                            <div class="color-picker" style="background: #434190;"></div>
+                            <div class="color-picker" style="background: #3c366b;"></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Analogous</h4>
+                        <p>Colors next to each other on the color wheel</p>
+                        <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                            <div class="color-picker" style="background: #667eea;"></div>
+                            <div class="color-picker" style="background: #8b5cf6;"></div>
+                            <div class="color-picker" style="background: #a855f7;"></div>
+                            <div class="color-picker" style="background: #c084fc;"></div>
+                            <div class="color-picker" style="background: #ddd6fe;"></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Complementary</h4>
+                        <p>Colors opposite each other on the color wheel</p>
+                        <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                            <div class="color-picker" style="background: #667eea;"></div>
+                            <div class="color-picker" style="background: #f59e0b;"></div>
+                            <div class="color-picker" style="background: #d97706;"></div>
+                            <div class="color-picker" style="background: #b45309;"></div>
+                            <div class="color-picker" style="background: #92400e;"></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Triadic</h4>
+                        <p>Three colors equally spaced on the color wheel</p>
+                        <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                            <div class="color-picker" style="background: #667eea;"></div>
+                            <div class="color-picker" style="background: #f59e0b;"></div>
+                            <div class="color-picker" style="background: #10b981;"></div>
+                            <div class="color-picker" style="background: #059669;"></div>
+                            <div class="color-picker" style="background: #047857;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Color Accessibility</h3>
+                
+                <div class="warning">
+                    <strong>Accessibility Guidelines:</strong>
+                    <ul>
+                        <li>Ensure sufficient contrast ratio (minimum 4.5:1 for normal text)</li>
+                        <li>Don't rely solely on color to convey information</li>
+                        <li>Test with colorblind simulators</li>
+                        <li>Provide alternative text descriptions</li>
+                    </ul>
+                </div>
+
+                <h3>Dark Mode Implementation</h3>
+                
+                <div class="code-block">
+                    <code>/* Advanced Dark Mode with CSS Variables */
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Dark mode colors */
+        --background-primary: #0f1419;
+        --background-secondary: #1a1f29;
+        --background-tertiary: #242b38;
+        --text-primary: #e6edf3;
+        --text-secondary: #b1bac4;
+        --text-muted: #8b949e;
+        --border-color: #30363d;
+        --border-light: #21262d;
+    }
+}
+
+/* Manual dark mode toggle */
+[data-theme="dark"] {
+    --background-primary: #0f1419;
+    --background-secondary: #1a1f29;
+    --background-tertiary: #242b38;
+    --text-primary: #e6edf3;
+    --text-secondary: #b1bac4;
+    --text-muted: #8b949e;
+    --border-color: #30363d;
+    --border-light: #21262d;
+}
+
+[data-theme="light"] {
+    --background-primary: #ffffff;
+    --background-secondary: #f6f8fa;
+    --background-tertiary: #f1f3f4;
+    --text-primary: #24292f;
+    --text-secondary: #656d76;
+    --text-muted: #8b949e;
+    --border-color: #d0d7de;
+    --border-light: #f6f8fa;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color var(--transition-fast);
+}
+
+.theme-toggle:hover {
+    background: var(--background-tertiary);
+}
+
+.theme-toggle i {
+    font-size: 18px;
+    color: var(--text-secondary);
+}
+</code>
+                </div>
+            </div>
+
+            <div class="section" id="fonts">
+                <h2>Typography</h2>
+                
+                <h3>Font Selection</h3>
+                <p>Choosing the right fonts enhances readability and user experience. Here are some recommended font combinations:</p>
+
+                <div class="grid">
+                    <div class="card">
+                        <h4>Modern Sans-Serif</h4>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 16px;">
+                            Inter - Clean, modern, highly readable
+                        </p>
+                        <div class="code-block">
+                            <code>font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;</code>
+                        </div>
+                    </div>
+                    <div class="card">
+>Professional</h4>
+                                                <h4<p style="font-family: 'Source Sans Pro', sans-serif; font-size: 16px;">
+                            Source Sans Pro - Professional and friendly
+                        </p>
+                        <div class="code-block">
+                            <code>font-family: 'Source Sans Pro', sans-serif;</code>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Technical</h4>
+                        <p style="font-family: 'JetBrains Mono', monospace; font-size: 16px;">
+                            JetBrains Mono - Perfect for code and technical content
+                        </p>
+                        <div class="code-block">
+                            <code>font-family: 'JetBrains Mono', monospace;</code>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Elegant</h4>
+                        <p style="font-family: 'Playfair Display', serif; font-size: 16px;">
+                            Playfair Display - Elegant serif for headers
+                        </p>
+                        <div class="code-block">
+                            <code>font-family: 'Playfair Display', serif;</code>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Font Loading</h3>
+                
+                <h4>Google Fonts Integration</h4>
+                <div class="code-block">
+                    <code><!-- Add to your HTML head -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Or use @import in CSS -->
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+</code>
+                </div>
+
+                <h4>Self-Hosted Fonts</h4>
+                <div class="code-block">
+                    <code>/* Include your font files in assets/fonts/ */
+/* Then define them in CSS */
+@font-face {
+    font-family: 'Your Custom Font';
+    src: url('../fonts/your-font.woff2') format('woff2'),
+         url('../fonts/your-font.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap; /* Prevents invisible text while loading */
+}
+
+@font-face {
+    font-family: 'Your Custom Font';
+    src: url('../fonts/your-font-bold.woff2') format('woff2'),
+         url('../fonts/your-font-bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Use the font */
+.custom-font {
+    font-family: 'Your Custom Font', 'Inter', sans-serif;
+}
+</code>
+                </div>
+
+                <h3>Typography Scale</h3>
+                
+                <div class="code-block">
+                    <code>/* Typography Scale based on 1.25 ratio (Major Third) */
+:root {
+    /* Font Sizes */
+    --text-xs: 0.75rem;    /* 12px */
+    --text-sm: 0.875rem;   /* 14px */
+    --text-base: 1rem;     /* 16px */
+    --text-lg: 1.125rem;   /* 18px */
+    --text-xl: 1.25rem;    /* 20px */
+    --text-2xl: 1.5rem;    /* 24px */
+    --text-3xl: 1.875rem;  /* 30px */
+    --text-4xl: 2.25rem;   /* 36px */
+    --text-5xl: 3rem;      /* 48px */
+    
+    /* Line Heights */
+    --leading-tight: 1.25;
+    --leading-snug: 1.375;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.625;
+    --leading-loose: 2;
+    
+    /* Letter Spacing */
+    --tracking-tighter: -0.05em;
+    --tracking-tight: -0.025em;
+    --tracking-normal: 0em;
+    --tracking-wide: 0.025em;
+    --tracking-wider: 0.05em;
+    --tracking-widest: 0.1em;
+}
+
+/* Typography Classes */
+.text-xs { font-size: var(--text-xs); line-height: var(--leading-tight); }
+.text-sm { font-size: var(--text-sm); line-height: var(--leading-snug); }
+.text-base { font-size: var(--text-base); line-height: var(--leading-normal); }
+.text-lg { font-size: var(--text-lg); line-height: var(--leading-relaxed); }
+.text-xl { font-size: var(--text-xl); line-height: var(--leading-relaxed); }
+.text-2xl { font-size: var(--text-2xl); line-height: var(--leading-tight); }
+.text-3xl { font-size: var(--text-3xl); line-height: var(--leading-tight); }
+.text-4xl { font-size: var(--text-4xl); line-height: var(--leading-tight); }
+.text-5xl { font-size: var(--text-5xl); line-height: var(--leading-tight); }
+
+/* Font Weights */
+.font-light { font-weight: 300; }
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+/* Text Styles */
+.heading-primary {
+    font-size: var(--text-4xl);
+    font-weight: 700;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text-primary);
+}
+
+.heading-secondary {
+    font-size: var(--text-3xl);
+    font-weight: 600;
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-normal);
+    color: var(--text-primary);
+}
+
+.text-body {
+    font-size: var(--text-base);
+    font-weight: 400;
+    line-height: var(--leading-relaxed);
+    color: var(--text-secondary);
+}
+
+.text-muted {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+}
+</code>
+                </div>
+            </div>
+
+            <div class="section" id="layout">
+                <h2>Layout Customization</h2>
+                
+                <h3>Responsive Layouts</h3>
+                
+                <div class="code-block">
+                    <code>/* Mobile First Approach */
+
+/* Base Styles (Mobile) */
+.chat-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.chat-input {
+    padding: 1rem;
+    background: var(--background-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) {
+    .chat-container {
+        max-width: 768px;
+        margin: 0 auto;
+        padding: 2rem;
+        gap: 1.5rem;
+    }
+    
+    .chat-messages {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+    
+    .chat-input {
+        padding: 1.25rem;
+    }
+}
+
+/* Desktop Styles */
+@media (min-width: 1024px) {
+    .chat-container {
+        max-width: 1024px;
+        padding: 3rem;
+        gap: 2rem;
+    }
+    
+    .chat-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.5rem;
+        background: var(--background-secondary);
+        border-radius: var(--radius-lg);
+        margin-bottom: 1rem;
+    }
+    
+    .chat-sidebar {
+        display: flex;
+        width: 300px;
+        background: var(--background-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 1rem;
+    }
+    
+    .chat-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+/* Large Desktop */
+@media (min-width: 1280px) {
+    .chat-container {
+        max-width: 1200px;
+        gap: 2.5rem;
+    }
+}
+</code>
+                </div>
+
+                <h3>Custom Layouts</h3>
+                
+                <h4>Wide Layout</h4>
+                <div class="code-block">
+                    <code>/* Wide Layout for better content consumption */
+.layout-wide .chat-container {
+    max-width: 1400px;
+    padding: 2rem;
+}
+
+.layout-wide .chat-messages {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.layout-wide .message-content {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    padding: 1.5rem;
+}
+
+.layout-wide .message-user .message-content {
+    margin-left: 2rem;
+}
+
+.layout-wide .message-assistant .message-content {
+    margin-right: 2rem;
+}
+</code>
+                </div>
+
+                <h4>Compact Layout</h4>
+                <div class="code-block">
+                    <code>/* Compact Layout for more messages visible */
+.layout-compact .chat-container {
+    gap: 0.75rem;
+    padding: 1rem;
+}
+
+.layout-compact .message {
+    margin-bottom: 0.5rem;
+}
+
+.layout-compact .message-content {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+}
+
+.layout-compact .message-avatar {
+    width: 24px;
+    height: 24px;
+}
+
+.layout-compact .typing-indicator {
+    padding: 0.5rem;
+}
+</code>
+                </div>
+
+                <h3>Grid and Flexbox Layouts</h3>
+                
+                <div class="code-block">
+                    <code>/* CSS Grid Layout */
+.chat-layout {
+    display: grid;
+    grid-template-areas: 
+        "header header header"
+        "sidebar main tools"
+        "input input input";
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 300px 1fr 250px;
+    height: 100vh;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.chat-header { grid-area: header; }
+.chat-sidebar { grid-area: sidebar; }
+.chat-main { grid-area: main; }
+.chat-tools { grid-area: tools; }
+.chat-input { grid-area: input; }
+
+/* Responsive Grid */
+@media (max-width: 1024px) {
+    .chat-layout {
+        grid-template-areas: 
+            "header header"
+            "main main"
+            "input input";
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+    }
+    
+    .chat-sidebar,
+    .chat-tools {
+        display: none;
+    }
+}
+
+/* Flexbox Layout Variations */
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-1 {
+    flex: 1;
+}
+</code>
+                </div>
+            </div>
+
+            <div class="section" id="branding">
+                <h2>Branding</h2>
+                
+                <h3>Logo Customization</h3>
+                
+                <h4>Adding Your Logo</h4>
+                <div class="code-block">
+                    <code>/* Logo Styling */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.logo-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.logo-subtitle {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+/* Responsive Logo */
+@media (max-width: 768px) {
+    .logo-text {
+        font-size: 1.25rem;
+    }
+    
+    .logo-subtitle {
+        display: none;
+    }
+}
+
+/* Logo in Header */
+.header .logo {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+}
+
+/* Logo in Sidebar */
+.sidebar .logo {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+</code>
+                </div>
+
+                <h4>Favicon Setup</h4>
+                <div class="code-block">
+                    <code><!-- Add to your HTML head -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<!-- Generate favicon packages -->
+<!-- Use tools like realfavicongenerator.net -->
+</code>
+                </div>
+
+                <h3>Brand Colors</h3>
+                
+                <h4>Primary Brand Colors</h4>
+                <div class="code-block">
+                    <code>/* Brand Color Variables */
+:root {
+    /* Your Brand Colors */
+    --brand-primary: #your-primary-color;
+    --brand-secondary: #your-secondary-color;
+    --brand-accent: #your-accent-color;
+    
+    /* Generate variations */
+    --brand-primary-light: color-mix(in srgb, var(--brand-primary) 80%, white);
+    --brand-primary-dark: color-mix(in srgb, var(--brand-primary) 80%, black);
+    
+    --brand-primary-hover: var(--brand-primary-dark);
+    --brand-primary-active: color-mix(in srgb, var(--brand-primary) 90%, black);
+    
+    /* Text colors on brand backgrounds */
+    --brand-text-primary: #ffffff;
+    --brand-text-secondary: rgba(255, 255, 255, 0.8);
+    --brand-text-muted: rgba(255, 255, 255, 0.6);
+}
+
+/* Apply brand colors to components */
+.btn-brand {
+    background: var(--brand-primary);
+    color: var(--brand-text-primary);
+    border: 1px solid var(--brand-primary);
+}
+
+.btn-brand:hover {
+    background: var(--brand-primary-hover);
+    border-color: var(--brand-primary-hover);
+}
+
+.brand-gradient {
+    background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+}
+
+.text-brand {
+    color: var(--brand-primary);
+}
+
+.border-brand {
+    border-color: var(--brand-primary);
+}
+</code>
+                </div>
+
+                <h3>Custom CSS for Branding</h3>
+                
+                <div class="code-block">
+                    <code>/* Complete Brand Customization Example */
+
+/* Brand-specific overrides */
+.branded-theme {
+    /* Override default colors */
+    --primary-color: var(--brand-primary);
+    --secondary-color: var(--brand-secondary);
+    
+    /* Custom animations */
+    --animation-speed: 0.3s;
+    --animation-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Branded header */
+.branded-header {
+    background: linear-gradient(135deg, 
+        var(--brand-primary) 0%, 
+        var(--brand-secondary) 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.branded-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="2" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    pointer-events: none;
+}
+
+/* Branded buttons */
+.branded-button {
+    background: var(--brand-primary);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 12px 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--animation-speed) var(--animation-ease);
+    position: relative;
+    overflow: hidden;
+}
+
+.branded-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.branded-button:hover::before {
+    left: 100%;
+}
+
+.branded-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Branded message bubbles */
+.branded-theme .message-user {
+    background: var(--brand-primary);
+    color: white;
+    border-radius: 18px 18px 4px 18px;
+}
+
+.branded-theme .message-assistant {
+    background: var(--background-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 18px 18px 18px 4px;
+}
+</code>
+                </div>
+            </div>
+
+            <div class="section" id="features">
+                <h2>Feature Customization</h2>
+                
+                <h3>Chat Behavior</h3>
+                
+                <h4>Message Animation</h4>
+                <div class="code-block">
+                    <code>/* Custom Message Animations */
+.message {
+    animation: messageSlideIn 0.3s ease-out;
+}
+
+.message-typing {
+    animation: typingPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes typingPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* Staggered animation for multiple messages */
+.message:nth-child(1) { animation-delay: 0ms; }
+.message:nth-child(2) { animation-delay: 100ms; }
+.message:nth-child(3) { animation-delay: 200ms; }
+
+/* Custom scrollbar */
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: var(--background-secondary);
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+</code>
+                </div>
+
+                <h4>Sound Notifications</h4>
+                <div class="code-block">
+                    <code>// JavaScript for custom sound notifications
+class SoundManager {
+    constructor() {
+        this.sounds = {
+            message: new Audio('/sounds/message.mp3'),
+            notification: new Audio('/sounds/notification.mp3'),
+            error: new Audio('/sounds/error.mp3'),
+            typing: new Audio('/sounds/typing.mp3')
+        };
+        
+        this.enabled = true;
+        this.volume = 0.5;
+        this.loadSettings();
+    }
+    
+    play(soundName) {
+        if (!this.enabled) return;
+        
+        const sound = this.sounds[soundName];
+        if (sound) {
+            sound.volume = this.volume;
+            sound.currentTime = 0;
+            sound.play().catch(e => console.log('Sound play failed:', e));
+        }
+    }
+    
+    loadSettings() {
+        const saved = localStorage.getItem('chat-sound-settings');
+        if (saved) {
+            const settings = JSON.parse(saved);
+            this.enabled = settings.enabled ?? true;
+            this.volume = settings.volume ?? 0.5;
+        }
+    }
+    
+    saveSettings() {
+        localStorage.setItem('chat-sound-settings', JSON.stringify({
+            enabled: this.enabled,
+            volume: this.volume
+        }));
+    }
+}
+
+// Usage in your chat application
+const soundManager = new SoundManager();
+
+// Play sound when message received
+socket.on('message', (data) => {
+    displayMessage(data);
+    soundManager.play('message');
+});
+
+// Play sound when typing starts
+socket.on('typing_start', () => {
+    soundManager.play('typing');
+});
+</code>
+                </div>
+
+                <h3>Custom Features</h3>
+                
+                <h4>Message Reactions</h4>
+                <div class="code-block">
+                    <code>// Message reactions feature
+class MessageReactions {
+    constructor() {
+        this.reactions = ['👍', '❤️', '😂', '😮', '😢', '😡'];
+        this.userReactions = new Map();
+    }
+    
+    addReaction(messageId, emoji) {
+        const reactions = this.userReactions.get(messageId) || new Set();
+        reactions.add(emoji);
+        this.userReactions.set(messageId, reactions);
+        this.updateUI(messageId);
+    }
+    
+    removeReaction(messageId, emoji) {
+        const reactions = this.userReactions.get(messageId);
+        if (reactions) {
+            reactions.delete(emoji);
+            if (reactions.size === 0) {
+                this.userReactions.delete(messageId);
+            }
+            this.updateUI(messageId);
+        }
+    }
+    
+    updateUI(messageId) {
+        const messageEl = document.querySelector(`[data-message-id="${messageId}"]`);
+        const reactionsEl = messageEl.querySelector('.message-reactions');
+        const reactions = this.userReactions.get(messageId) || new Set();
+        
+        reactionsEl.innerHTML = '';
+        reactions.forEach(emoji => {
+            const reactionEl = document.createElement('span');
+            reactionEl.className = 'reaction';
+            reactionEl.textContent = emoji;
+            reactionEl.onclick = () => this.removeReaction(messageId, emoji);
+            reactionsEl.appendChild(reactionEl);
+        });
+    }
+    
+    renderReactionButton() {
+        return `
+            <div class="reaction-picker">
+                ${this.reactions.map(emoji => 
+                    `<button class="reaction-btn" data-emoji="${emoji}">${emoji}</button>`
+                ).join('')}
+            </div>
+        `;
+    }
+}
+</code>
+                </div>
+
+                <h4>Message Search</h4>
+                <div class="code-block">
+                    <code>// Advanced message search functionality
+class MessageSearch {
+    constructor(messages) {
+        this.messages = messages;
+        this.searchIndex = this.buildSearchIndex();
+    }
+    
+    buildSearchIndex() {
+        return this.messages.map((message, index) => ({
+            id: index,
+            text: message.content.toLowerCase(),
+            timestamp: message.timestamp,
+            user: message.user
+        }));
+    }
+    
+    search(query, options = {}) {
+        const {
+            limit = 10,
+            user = null,
+            startDate = null,
+            endDate = null,
+            fuzzy = false
+        } = options;
+        
+        let results = this.searchIndex.filter(item => {
+            // Text search
+            if (fuzzy) {
+                if (!this.fuzzyMatch(query.toLowerCase(), item.text)) {
+                    return false;
+                }
+            } else {
+                if (!item.text.includes(query.toLowerCase())) {
+                    return false;
+                }
+            }
+            
+            // User filter
+            if (user && item.user !== user) {
+                return false;
+            }
+            
+            // Date range filter
+            if (startDate && item.timestamp < startDate) {
+                return false;
+            }
+            if (endDate && item.timestamp > endDate) {
+                return false;
+            }
+            
+            return true;
+        });
+        
+        // Sort by relevance and recency
+        results.sort((a, b) => {
+            const aRelevance = this.calculateRelevance(a, query);
+            const bRelevance = this.calculateRelevance(b, query);
+            return bRelevance - aRelevance || b.timestamp - a.timestamp;
+        });
+        
+        return results.slice(0, limit);
+    }
+    
+    fuzzyMatch(query, text) {
+        // Simple fuzzy matching algorithm
+        const queryChars = query.split('');
+        let textIndex = 0;
+        
+        for (const char of queryChars) {
+            textIndex = text.indexOf(char, textIndex);
+            if (textIndex === -1) return false;
+            textIndex++;
+        }
+        
+        return true;
+    }
+    
+    calculateRelevance(item, query) {
+        let score = 0;
+        const text = item.text;
+        const queryLower = query.toLowerCase();
+        
+        // Exact match gets highest score
+        if (text === queryLower) score += 100;
+        
+        // Starts with query
+        if (text.startsWith(queryLower)) score += 50;
+        
+        // Contains query
+        if (text.includes(queryLower)) score += 25;
+        
+        // Word boundaries
+        const words = queryLower.split(' ');
+        words.forEach(word => {
+            if (text.includes(` ${word} `)) score += 10;
+        });
+        
+        return score;
+    }
+    
+    highlightMatches(text, query) {
+        const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        return text.replace(regex, '<mark>$1</mark>');
+    }
+}
+</code>
+                </div>
+            </div>
+
+            <div class="section" id="ui-components">
+                <h2>UI Components</h2>
+                
+                <h3>Custom Buttons</h3>
+                
+                <div class="code-block">
+                    <code>/* Advanced Button Styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Button Variants */
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: var(--background-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: var(--background-tertiary);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+}
+
+.btn-ghost:hover:not(:disabled) {
+    background: var(--background-secondary);
+}
+
+/* Button Sizes */
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: var(--text-xs);
+}
+
+.btn-lg {
+    padding: 1rem 2rem;
+    font-size: var(--text-lg);
+}
+
+.btn-xl {
+    padding: 1.25rem 2.5rem;
+    font-size: var(--text-xl);
+}
+
+/* Button with Loading State */
+.btn-loading {
+    position: relative;
+    color: transparent;
+}
+
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Icon Buttons */
+.btn-icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+}
+
+.btn-icon.btn-sm {
+    width: 32px;
+    height: 32px;
+}
+
+.btn-icon.btn-lg {
+    width: 48px;
+    height: 48px;
+}
+</code>
+                </div>
+
+                <h3>Custom Input Fields</h3>
+                
+                <div class="code-block">
+                    <code>/* Enhanced Input Styles */
+.input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--background-primary);
+    color: var(--text-primary);
+    font-size: var(--text-base);
+    transition: all var(--transition-fast);
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 10%, transparent);
+}
+
+.input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Input Groups */
+.input-group {
+    display: flex;
+    align-items: stretch;
+}
+
+.input-group .input {
+    border-radius: 0;
+    border-right: none;
+}
+
+.input-group .input:first-child {
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.input-group .input:last-child {
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    border-right: 1px solid var(--border-color);
+}
+
+.input-group .btn {
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+/* Floating Labels */
+.input-floating {
+    position: relative;
+}
+
+.input-floating .input {
+    padding: 1.5rem 1rem 0.5rem;
+}
+
+.input-floating label {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    color: var(--text-muted);
+    font-size: var(--text-base);
+    transition: all var(--transition-fast);
+    pointer-events: none;
+}
+
+.input-floating .input:focus + label,
+.input-floating .input:not(:placeholder-shown) + label {
+    top: 0.5rem;
+    font-size: var(--text-xs);
+    color: var(--primary-color);
+}
+
+/* Textarea */
+textarea.input {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Custom Select */
+.select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+</code>
+                </div>
+
+                <h3>Custom Modals</h3>
+                
+                <div class="code-block">
+                    <code>/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background: var(--background-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+    transform: scale(0.9) translateY(-20px);
+    transition: all var(--transition-normal);
+}
+
+.modal-overlay.active .modal {
+    transform: scale(1) translateY(0);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-title {
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+}
+
+.modal-close:hover {
+    background: var(--background-secondary);
+    color: var(--text-primary);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Modal Sizes */
+.modal-sm {
+    width: 400px;
+}
+
+.modal-md {
+    width: 600px;
+}
+
+.modal-lg {
+    width: 800px;
+}
+
+.modal-xl {
+    width: 1000px;
+}
+
+/* Responsive Modals */
+@media (max-width: 768px) {
+    .modal {
+        width: 95vw;
+        margin: 1rem;
+    }
+    
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: 1rem;
+    }
+}
+</code>
+                </div>
+            </div>
+
+            <div class="section" id="internationalization">
+                <h2>Internationalization</h2>
+                
+                <h3>Multi-language Support</h3>
+                
+                <div class="code-block">
+                    <code>// Internationalization system
+class I18n {
+    constructor(locale = 'en') {
+        this.locale = locale;
+        this.translations = {};
+        this.fallbackLocale = 'en';
+        this.loadTranslations();
+    }
+    
+    async loadTranslations() {
+        try {
+            const response = await fetch(`/translations/${this.locale}.json`);
+            this.translations = await response.json();
+        } catch (error) {
+            console.warn(`Failed to load translations for ${this.locale}`);
+            this.translations = {};
+        }
+    }
+    
+    t(key, params = {}) {
+        let translation = this.translations[key] || this.translations[`${key}.${this.fallbackLocale}`] || key;
+        
+        // Replace parameters
+        Object.keys(params).forEach(param => {
+            translation = translation.replace(`{{${param}}}`, params[param]);
+        });
+        
+        return translation;
+    }
+    
+    setLocale(locale) {
+        this.locale = locale;
+        localStorage.setItem('preferred-locale', locale);
+        document.documentElement.lang = locale;
+        this.loadTranslations();
+        this.updateUI();
+    }
+    
+    updateUI() {
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            const translation = this.t(key);
+            
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                element.placeholder = translation;
+            } else {
+                element.textContent = translation;
+            }
+        });
+    }
+}
+
+// Initialize i18n
+const i18n = new I18n(localStorage.getItem('preferred-locale') || 'en');
+
+// Language switcher
+function createLanguageSwitcher() {
+    const languages = [
+        { code: 'en', name: 'English' },
+        { code: 'es', name: 'Español' },
+        { code: 'fr', name: 'Français' },
+        { code: 'de', name: 'Deutsch' },
+        { code: 'zh', name: '中文' },
+        { code: 'ja', name: '日本語' }
+    ];
+    
+    return `
+        <select id="language-switcher" onchange="changeLanguage(this.value)">
+            ${languages.map(lang => 
+                `<option value="${lang.code}" ${lang.code === i18n.locale ? 'selected' : ''}>
+                    ${lang.name}
+                </option>`
+            ).join('')}
+        </select>
+    `;
+}
+
+function changeLanguage(locale) {
+    i18n.setLocale(locale);
+}
+</code>
+                </div>
+
+                <h3>Translation Files</h3>
+                
+                <h4>English (en.json)</h4>
+                <div class="code-block">
+                    <code>{
+  "app": {
+    "title": "AI Chat Studio",
+    "subtitle": "Your intelligent conversation companion"
+  },
+  "chat": {
+    "placeholder": "Type your message...",
+    "send": "Send",
+    "thinking": "Thinking...",
+    "error": "Sorry, I encountered an error. Please try again.",
+    "empty": "Start a conversation with AI"
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": "Theme",
+    "language": "Language",
+    "sound": "Sound Notifications",
+    "save": "Save Settings"
+  },
+  "themes": {
+    "default": "Default",
+    "dark": "Dark",
+    "ocean": "Ocean",
+    "forest": "Forest",
+    "sunset": "Sunset",
+    "purple": "Purple"
+  },
+  "buttons": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "save": "Save"
+  },
+  "errors": {
+    "network": "Network error. Please check your connection.",
+    "timeout": "Request timed out. Please try again.",
+    "unauthorized": "Authentication failed. Please check your API key.",
+    "notfound": "Resource not found."
+  }
+}
+</code>
+                </div>
+
+                <h4>Spanish (es.json)</h4>
+                <div class="code-block">
+                    <code>{
+  "app": {
+    "title": "AI Chat Studio",
+    "subtitle": "Tu compañero inteligente de conversación"
+  },
+  "chat": {
+    "placeholder": "Escribe tu mensaje...",
+    "send": "Enviar",
+    "thinking": "Pensando...",
+    "error": "Lo siento, encontré un error. Por favor inténtalo de nuevo.",
+    "empty": "Inicia una conversación con IA"
+  },
+  "settings": {
+    "title": "Configuración",
+    "theme": "Tema",
+    "language": "Idioma",
+    "sound": "Notificaciones de sonido",
+    "save": "Guardar configuración"
+  },
+  "themes": {
+    "default": "Predeterminado",
+    "dark": "Oscuro",
+    "ocean": "Océano",
+    "forest": "Bosque",
+    "sunset": "Atardecer",
+    "purple": "Púrpura"
+  },
+  "buttons": {
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "save": "Guardar"
+  },
+  "errors": {
+    "network": "Error de red. Por favor verifica tu conexión.",
+    "timeout": "La solicitud agotó el tiempo. Por favor inténtalo de nuevo.",
+    "unauthorized": "Autenticación fallida. Por favor verifica tu clave API.",
+    "notfound": "Recurso no encontrado."
+  }
+}
+</code>
+                </div>
+            </div>
+
+            <div class="section" id="plugins">
+                <h2>Plugin System</h2>
+                
+                <h3>Creating Plugins</h3>
+                
+                <div class="code-block">
+                    <code>// Plugin System
+class PluginManager {
+    constructor() {
+        this.plugins = new Map();
+        this.hooks = new Map();
+    }
+    
+    registerPlugin(plugin) {
+        if (!plugin.name || !plugin.version) {
+            throw new Error('Plugin must have name and version');
+        }
+        
+        this.plugins.set(plugin.name, plugin);
+        this.initializePlugin(plugin);
+    }
+    
+    initializePlugin(plugin) {
+        try {
+            if (typeof plugin.initialize === 'function') {
+                plugin.initialize(this);
+            }
+            
+            // Register hooks
+            if (plugin.hooks) {
+                Object.entries(plugin.hooks).forEach(([hookName, callback]) => {
+                    this.addHook(hookName, callback);
+                });
+            }
+            
+            console.log(`Plugin ${plugin.name} v${plugin.version} initialized`);
+        } catch (error) {
+            console.error(`Failed to initialize plugin ${plugin.name}:`, error);
+        }
+    }
+    
+    addHook(hookName, callback) {
+        if (!this.hooks.has(hookName)) {
+            this.hooks.set(hookName, []);
+        }
+        this.hooks.get(hookName).push(callback);
+    }
+    
+    executeHook(hookName, ...args) {
+        const callbacks = this.hooks.get(hookName) || [];
+        return callbacks.reduce((acc, callback) => {
+            return callback(acc, ...args);
+        }, args[0]);
+    }
+    
+    getPlugin(name) {
+        return this.plugins.get(name);
+    }
+    
+    listPlugins() {
+        return Array.from(this.plugins.values());
+    }
+}
+
+// Example Plugin
+class MessageStatsPlugin {
+    constructor() {
+        this.name = 'message-stats';
+        this.version = '1.0.0';
+        this.stats = {
+            messagesSent: 0,
+            charactersTyped: 0,
+            conversationsStarted: new Date()
+        };
+    }
+    
+    initialize(pluginManager) {
+        // Add UI elements
+        this.addStatsPanel();
+        
+        // Hook into message events
+        pluginManager.addHook('message_sent', this.onMessageSent.bind(this));
+        pluginManager.addHook('chat_initialized', this.onChatInitialized.bind(this));
+    }
+    
+    onMessageSent(message) {
+        this.stats.messagesSent++;
+        this.stats.charactersTyped += message.length;
+        this.updateStatsDisplay();
+    }
+    
+    onChatInitialized() {
+        this.startTime = new Date();
+    }
+    
+    addStatsPanel() {
+        const panel = document.createElement('div');
+        panel.className = 'stats-panel';
+        panel.innerHTML = `
+            <h3>Message Statistics</h3>
+            <div class="stat-item">
+                <label>Messages Sent:</label>
+                <span id="messages-count">0</span>
+            </div>
+            <div class="stat-item">
+                <label>Characters Typed:</label>
+                <span id="characters-count">0</span>
+            </div>
+            <div class="stat-item">
+                <label>Average per Message:</label>
+                <span id="average-length">0</span>
+            </div>
+        `;
+        
+        document.querySelector('.chat-sidebar')?.appendChild(panel);
+    }
+    
+    updateStatsDisplay() {
+        const avgLength = this.stats.messagesSent > 0 
+            ? Math.round(this.stats.charactersTyped / this.stats.messagesSent)
+            : 0;
+            
+        document.getElementById('messages-count').textContent = this.stats.messagesSent;
+        document.getElementById('characters-count').textContent = this.stats.charactersTyped;
+        document.getElementById('average-length').textContent = avgLength;
+    }
+}
+
+// Register the plugin
+const pluginManager = new PluginManager();
+pluginManager.registerPlugin(new MessageStatsPlugin());
+</code>
+                </div>
+
+                <h3>Example Plugins</h3>
+                
+                <h4>Weather Plugin</h4>
+                <div class="code-block">
+                    <code>class WeatherPlugin {
+    constructor() {
+        this.name = 'weather';
+        this.version = '1.0.0';
+        this.apiKey = 'your-weather-api-key';
+    }
+    
+    initialize(pluginManager) {
+        pluginManager.addHook('message_received', this.processWeatherRequest.bind(this));
+    }
+    
+    processWeatherRequest(message) {
+        const weatherPattern = /weather in (\w+)/i;
+        const match = message.content.match(weatherPattern);
+        
+        if (match) {
+            const city = match[1];
+            this.getWeather(city).then(weather => {
+                const response = `Current weather in ${city}: ${weather.temperature}°C, ${weather.description}`;
+                pluginManager.executeHook('send_message', {
+                    content: response,
+                    type: 'weather'
+                });
+            });
+        }
+    }
+    
+    async getWeather(city) {
+        try {
+            const response = await fetch(
+                `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.apiKey}&units=metric`
+            );
+            const data = await response.json();
+            
+            return {
+                temperature: Math.round(data.main.temp),
+                description: data.weather[0].description,
+                humidity: data.main.humidity
+            };
+        } catch (error) {
+            return {
+                temperature: 'N/A',
+                description: 'Weather data unavailable',
+                humidity: 'N/A'
+            };
+        }
+    }
+}
+</code>
+                </div>
+
+                <h4>Code Highlight Plugin</h4>
+                <div class="code-block">
+                    <code>class CodeHighlightPlugin {
+    constructor() {
+        this.name = 'code-highlight';
+        this.version = '1.0.0';
+    }
+    
+    initialize(pluginManager) {
+        pluginManager.addHook('message_rendered', this.highlightCode.bind(this));
+    }
+    
+    highlightCode(element) {
+        const codeBlocks = element.querySelectorAll('pre code');
+        
+        codeBlocks.forEach(block => {
+            const language = this.detectLanguage(block.textContent);
+            block.classList.add(`language-${language}`);
+            
+            // Use Prism.js or similar for syntax highlighting
+            if (window.Prism) {
+                Prism.highlightElement(block);
+            }
+        });
+    }
+    
+    detectLanguage(code) {
+        // Simple language detection
+        if (code.includes('function') || code.includes('var ') || code.includes('const ')) {
+            return 'javascript';
+        }
+        if (code.includes('def ') || code.includes('import ')) {
+            return 'python';
+        }
+        if (code.includes('<?php') || code.includes('$')) {
+            return 'php';
+        }
+        if (code.includes('<') && code.includes('>')) {
+            return 'html';
+        }
+        
+        return 'text';
+    }
+}
+</code>
+                </div>
+            </div>
+
+            <div class="section" id="advanced">
+                <h2>Advanced Customization</h2>
+                
+                <h3>Custom Build Process</h3>
+                
+                <div class="code-block">
+                    <code>// webpack.config.js for custom builds
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
+module.exports = (env, argv) => {
+    const isProduction = argv.mode === 'production';
+    
+    return {
+        entry: {
+            app: './assets/js/app.js',
+            themes: './assets/js/themes.js',
+            plugins: './assets/js/plugins.js'
+        },
+        
+        output: {
+            path: path.resolve(__dirname, 'dist'),
+            filename: isProduction ? '[name].[contenthash].js' : '[name].js',
+            clean: true
+        },
+        
+        module: {
+            rules: [
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    use: {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                ['@babel/preset-env', {
+                                    targets: {
+                                        browsers: ['> 1%', 'last 2 versions']
+                                    }
+                                }]
+                            ]
+                        }
+                    }
+                },
+                {
+                    test: /\.css$/,
+                    use: [
+                        isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+                        'css-loader',
+                        'postcss-loader'
+                    ]
+                },
+                {
+                    test: /\.(png|jpg|jpeg|gif|svg)$/,
+                    type: 'asset/resource'
+                }
+            ]
+        },
+        
+        plugins: [
+            new MiniCssExtractPlugin({
+                filename: isProduction ? '[name].[contenthash].css' : '[name].css'
+            })
+        ],
+        
+        optimization: {
+            minimize: isProduction,
+            minimizer: [
+                new TerserPlugin(),
+                new OptimizeCSSAssetsPlugin()
+            ],
+            
+            splitChunks: {
+                chunks: 'all',
+                cacheGroups: {
+                    vendor: {
+                        test: /[\\/]node_modules[\\/]/,
+                        name: 'vendors',
+                        chunks: 'all'
+                    }
+                }
+            }
+        },
+        
+        devServer: {
+            contentBase: './dist',
+            port: 3000,
+            hot: true,
+            open: true
+        }
+    };
+};
+</code>
+                </div>
+
+                <h3>Performance Optimization</h3>
+                
+                <div class="code-block">
+                    <code>// Performance optimization techniques
+
+// 1. Lazy loading for images and components
+class LazyLoader {
+    constructor() {
+        this.observer = new IntersectionObserver(
+            this.handleIntersection.bind(this),
+            { threshold: 0.1 }
+        );
+    }
+    
+    observe(element) {
+        this.observer.observe(element);
+    }
+    
+    handleIntersection(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                this.loadElement(entry.target);
+                this.observer.unobserve(entry.target);
+            }
+        });
+    }
+    
+    loadElement(element) {
+        if (element.dataset.src) {
+            element.src = element.dataset.src;
+            element.removeAttribute('data-src');
+        }
+        
+        if (element.dataset.lazy) {
+            element.classList.remove('lazy');
+            element.removeAttribute('data-lazy');
+        }
+    }
+}
+
+// 2. Virtual scrolling for large message lists
+class VirtualScroller {
+    constructor(container, itemHeight, renderItem) {
+        this.container = container;
+        this.itemHeight = itemHeight;
+        this.renderItem = renderItem;
+        this.visibleRange = { start: 0, end: 0 };
+        this.items = [];
+        
+        this.setupContainer();
+    }
+    
+    setupContainer() {
+        this.container.style.overflow = 'auto';
+        this.container.style.position = 'relative';
+    }
+    
+    setItems(items) {
+        this.items = items;
+        this.updateVisibleRange();
+        this.render();
+    }
+    
+    updateVisibleRange() {
+        const scrollTop = this.container.scrollTop;
+        const containerHeight = this.container.clientHeight;
+        const visibleCount = Math.ceil(containerHeight / this.itemHeight);
+        
+        const start = Math.floor(scrollTop / this.itemHeight);
+        const end = Math.min(start + visibleCount + 5, this.items.length); // Buffer
+        
+        this.visibleRange = { start, end };
+    }
+    
+    render() {
+        const fragment = document.createDocumentFragment();
+        const offsetY = this.visibleRange.start * this.itemHeight;
+        
+        for (let i = this.visibleRange.start; i < this.visibleRange.end; i++) {
+            const item = this.items[i];
+            const element = this.renderItem(item, i);
+            element.style.position = 'absolute';
+            element.style.top = `${i * this.itemHeight}px`;
+            element.style.height = `${this.itemHeight}px`;
+            fragment.appendChild(element);
+        }
+        
+        this.container.innerHTML = '';
+        this.container.appendChild(fragment);
+        this.container.style.height = `${this.items.length * this.itemHeight}px`;
+    }
+}
+
+// 3. Memoization for expensive operations
+class Memoizer {
+    constructor() {
+        this.cache = new Map();
+    }
+    
+    memoize(key, fn) {
+        if (this.cache.has(key)) {
+            return this.cache.get(key);
+        }
+        
+        const result = fn();
+        this.cache.set(key, result);
+        return result;
+    }
+    
+    clear(key = null) {
+        if (key) {
+            this.cache.delete(key);
+        } else {
+            this.cache.clear();
+        }
+    }
+}
+
+// Usage example
+const memoizer = new Memoizer();
+
+function expensiveCalculation(data) {
+    return memoizer.memoize(`calc_${JSON.stringify(data)}`, () => {
+        // Expensive operation here
+        return data.reduce((sum, item) => sum + item.value, 0);
+    });
+}
+</code>
+                </div>
+
+                <h3>Security Enhancements</h3>
+                
+                <div class="code-block">
+                    <code>// Security utilities
+
+class SecurityManager {
+    constructor() {
+        this CSP_directives = {
+            'default-src': "'self'",
+            'script-src': "'self' 'unsafe-inline' https://cdn.jsdelivr.net",
+            'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com",
+            'font-src': "'self' https://fonts.gstatic.com",
+            'img-src': "'self' data: https:",
+            'connect-src': "'self' https://api.openai.com https://api.anthropic.com"
+        };
+    }
+    
+    // Content Security Policy
+    applyCSP() {
+        const meta = document.createElement('meta');
+        meta.httpEquiv = 'Content-Security-Policy';
+        meta.content = Object.entries(this.CSP_directives)
+            .map(([directive, value]) => `${directive} ${value}`)
+            .join('; ');
+        document.head.appendChild(meta);
+    }
+    
+    // XSS Protection
+    sanitizeHTML(html) {
+        const div = document.createElement('div');
+        div.textContent = html;
+        return div.innerHTML;
+    }
+    
+    // Input validation
+    validateInput(input, type) {
+        const validators = {
+            email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            username: /^[a-zA-Z0-9_]{3,20}$/,
+            phone: /^\+?[\d\s\-\(\)]{10,}$/,
+            url: /^https?:\/\/[^\s$.?#].[^\s]*$/i
+        };
+        
+        const validator = validators[type];
+        if (!validator) return true;
+        
+        return validator.test(input);
+    }
+    
+    // Rate limiting
+    createRateLimiter(maxRequests, timeWindow) {
+        const requests = [];
+        
+        return function rateLimit() {
+            const now = Date.now();
+            
+            // Remove old requests outside time window
+            while (requests.length && now - requests[0] > timeWindow) {
+                requests.shift();
+            }
+            
+            if (requests.length >= maxRequests) {
+                return false; // Rate limit exceeded
+            }
+            
+            requests.push(now);
+            return true;
+        };
+    }
+    
+    // Secure storage
+    secureStorage = {
+        set(key, value) {
+            try {
+                const encrypted = this.encrypt(JSON.stringify(value));
+                localStorage.setItem(key, encrypted);
+            } catch (error) {
+                console.error('Failed to store data securely:', error);
+            }
+        },
+        
+        get(key) {
+            try {
+                const encrypted = localStorage.getItem(key);
+                if (!encrypted) return null;
+                
+                const decrypted = this.decrypt(encrypted);
+                return JSON.parse(decrypted);
+            } catch (error) {
+                console.error('Failed to retrieve data securely:', error);
+                return null;
+            }
+        },
+        
+        encrypt(text) {
+            // Simple encryption (use proper crypto in production)
+            return btoa(encodeURIComponent(text));
+        },
+        
+        decrypt(encrypted) {
+            try {
+                return decodeURIComponent(atob(encrypted));
+            } catch (error) {
+                throw new Error('Decryption failed');
+            }
+        }
+    };
+}
+
+// Initialize security
+const security = new SecurityManager();
+security.applyCSP();
+
+// Rate limiter example
+const apiRateLimit = security.createRateLimiter(10, 60000); // 10 requests per minute
+
+function makeAPIRequest() {
+    if (!apiRateLimit()) {
+        alert('Too many requests. Please wait.');
+        return;
+    }
+    
+    // Make your API request here
+}
+</code>
+                </div>
+
+                <div class="success">
+                    <strong>Customization Complete!</strong> You've learned how to customize AI Chat Studio from basic themes to advanced plugins and performance optimizations. Remember to always test your customizations thoroughly and keep backups of your changes.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
